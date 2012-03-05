@@ -1,0 +1,1 @@
+/Users/sofie/Documents/Titanium Studio Workspace/smartsell/Resources/windows/main.js
