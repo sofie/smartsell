@@ -1,1 +1,0 @@
-/Users/sofie/Documents/Titanium Studio Workspace/smartsell/Resources/app.js
