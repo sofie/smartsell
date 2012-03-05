@@ -1,4 +1,56 @@
-    var win = Titanium.UI.currentWindow;  
+(function() {
+	var updateTimeout = 15000;
+	var i = 0;
+	var navWindow;   	
+   	
+//
+    //
+   /*var tabGroup = Titanium.UI.createTabGroup();  
+   	//nieuw
+	var main    = Titanium.UI.createWindow();
+	//nieuw
+	var mainTab = Titanium.UI.createTab();*/
+	//
+	
+
+	var win = Titanium.UI.createWindow({  
+	    title:'Inloggen',  
+	    barImage : 'img/header.png',
+			fullscreen : false,
+			font : {
+				fontFamily : 'Bree Serif'
+			},
+	    tabBarHidden:true,  
+	    //url:'main_windows/login.js'  
+	    
+	});  
+	
+	/*var loginTab = Titanium.UI.createTab({  
+	    title:"Login",  
+	    window:win //login  
+	}); */ 
+	
+	 // 
+	/*tabGroup.addTab(loginTab);  
+	tabGroup.open();*/
+	//
+	
+	//Eerste scherm
+	navWindow = Ti.UI.createWindow();
+	Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
+		window : win
+	});
+	navWindow.add(Smart.navGroup);
+
+	navWindow.open({
+		transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
+	});
+
+   	
+   	//
+	  
+   	
+   	//var win = Titanium.UI.currentWindow;  
       
       //label
  	   var labelPersoneelskaart = Titanium.UI.createLabel({
@@ -11,7 +63,7 @@
 			fontFamily:'Bree Serif'
 			},
 		textAlign:'left',
-		width:'250'
+		width:'280'
     	
     })
     
@@ -20,8 +72,8 @@
     //foto personeelskaart
     var afbPersoneelskaart = Titanium.UI.createImageView({
     	image:"/img/personeelskaart.png",
-    	left:30,
-    	top: 60,
+    	left:35,
+    	top: 70,
     	width:247,
     	height:181
     	
@@ -36,13 +88,13 @@
     	color:'#888',
 		text:'Inloggen via scannen lukt niet? Log hier in.',
 		left: 10,
-		top:140,
+		top:180,
 		font:{
 			fontSize:15,
 			fontFamily:'Bree Serif'
 			},
 		textAlign:'left',
-		width:'290'
+		width:'300'
     	
     })
     
@@ -52,7 +104,7 @@
     //inputveld
     var personeelNummer = Titanium.UI.createTextField({  
         color : '#888',  
-        top:300,  
+        top:320,  
         left:10,  
         width:300,  
         height:40,  
@@ -75,7 +127,7 @@
     var loginBtn = Titanium.UI.createButton({
     	backgroundImage : '/img/btn_inloggen.png',  
         title:'Inloggen',  
-        top:360,
+        top:370,
         right:10,  
         width:90,  
         height:35,  
@@ -103,12 +155,12 @@
         var response = JSON.parse(json);  
         if (response.logged == true)  
         {  
-            //alert("Welcome " + response.personeelNummer + ".");  
-            personeelNummer.blur();   
+           alert("Welcome " + response.personeelNummer + ".");  
+            /*personeelNummer.blur();   
 	        Ti.App.fireEvent('grantEntrance', {  
            	 	personeelNummer:response.personeelNummer  
         	}); 	 
-       	 	win.close();
+       	 	win.close();*/
         }  
         else  
         {  
@@ -133,3 +185,27 @@
 	        alert("Gelieve uw personeelskaart te scannen of uw personeelsnummer in te geven.");  
 	    }  
 	});
+	
+	
+	
+	//Login ok?: doorsturen naar koppelingspagina
+
+    Ti.App.addEventListener('grantEntrance', function(event)  
+    {  
+         //main.tabBarHidden   = true;  
+         //main.title      = 'Welkom ' + event.personeelNummer;  
+         //main.url        = 'windows/main.js';
+         //main.personeelNummer      = event.personeelNummer;  
+         //mainTab.window      = main;  
+       
+          /*tabGroup.addTab(mainTab);  
+          tabGroup.removeTab(loginTab);*/ 
+    });  
+  
+	
+	
+	
+	
+
+//
+})();

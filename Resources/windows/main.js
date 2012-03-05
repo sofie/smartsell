@@ -1,7 +1,7 @@
-(function() {
+/*(function() {
 	var updateTimeout = 15000;
 	var i = 0;
-	var navWindow;
+	var navWindow;*/
 
 	var mainWindow = Titanium.UI.createWindow({
 		barImage : 'img/header.png',
@@ -11,7 +11,7 @@
 		}
 	});
 	
-	navWindow = Ti.UI.createWindow();
+	/*navWindow = Ti.UI.createWindow();
 	Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
 		window : mainWindow
 	});
@@ -19,7 +19,7 @@
 
 	navWindow.open({
 		transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
-	});
+	});*/
 	
 	//
 	//Navigationbar
@@ -80,4 +80,4 @@
 	mainWindow.add(searchField);
 	mainWindow.add(btnSearch);
 
-})();
+/*})();*/
