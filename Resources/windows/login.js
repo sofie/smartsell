@@ -106,7 +106,7 @@
 		font : {
 			fontFamily : 'Bree Serif',
 			fontWeight : 'bold',
-			fontSize : 14
+			fontSize : 17
 		}
 	});
 	loginWin.add(loginBtn);

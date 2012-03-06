@@ -37,10 +37,61 @@
 			height : 35
 		});
 		addButton.addEventListener('click', function() {
-
+			Smart.navGroup.open(addKoppelingWin, {
+				animated : true
+			});
 		});
 		mainWindow.rightNavButton = addButton;
+		
+		//
+		//Add koppeling window
+		//
+		var addKoppelingWin = Titanium.UI.createWindow({
+			barImage : 'img/header.png',
+			layout : 'vertical'
+		});
+		var lblAddTitle = Titanium.UI.createLabel({
+			text : 'Nieuwe koppeling',
+			color : '#fff',
+			font : {
+				fontFamily : 'Bree Serif',
+				fontSize : 24
+			}
+		});
+		addKoppelingWin.setTitleControl(lblAddTitle);
 
+		var nameKoppeling = Titanium.UI.createTextField({
+			color : '#888',
+			top : 10,
+			left : 20,
+			right : 20,
+			height : 40,
+			hintText : 'Nieuwe koppeling',
+			font : {
+				fontSize : 15,
+				fontFamily : 'Bree Serif'
+			},
+			opacity : 0.65,
+			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
+			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
+			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
+		});
+
+		var btnCreateLijstje = Titanium.UI.createButton({
+			backgroundImage : 'img/btn_maak.png',
+			width : 100,
+			height : 42,
+			right : 20,
+			top : 15
+		});
+		btnCreateLijstje.addEventListener('click', function(e) {
+			Ti.API.info('Nieuwe koppeling: ' + nameKoppeling.value)
+		});
+
+		addKoppelingWin.add(nameKoppeling);
+		addKoppelingWin.add(btnCreateLijstje);
+		
 		//
 		//Zoek bestaande koppeling
 		//
