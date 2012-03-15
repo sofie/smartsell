@@ -3,10 +3,11 @@
 
 	var loginWin = Titanium.UI.createWindow({
 		barImage : 'img/header.png',
-		fullscreen : false,
 		tabBarHidden : true,
 		modal : true,
-		backgroundImage:'img/bg.png'
+		//layout : 'vertical',
+		navBarHidden : false,
+		backgroundImage : 'img/bg.png'
 	});
 
 	var lblTitle = Titanium.UI.createLabel({
@@ -27,9 +28,9 @@
 	navWindow.add(Smart.navGroup);
 
 	navWindow.open({
-		transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
+		animated : false
 	});
-	
+
 	//
 	//Inloggen via scannen
 	//
@@ -98,39 +99,37 @@
 
 	var loginBtn = Titanium.UI.createButton({
 		backgroundImage : '/img/btn_inloggen.png',
-		title : 'Inloggen',
 		top : 370,
 		right : 20,
 		width : 90,
-		height : 35,
-		font : {
-			fontFamily : 'Bree Serif',
-			fontWeight : 'bold',
-			fontSize : 17
-		}
+		height : 42
 	});
 	loginWin.add(loginBtn);
-	
+
 	//
 	//Login Service
 	//
-	
+
 	//request
-	var loginReq = Titanium.Network.createHTTPClient();
+	var loginReq = Titanium.Network.createHTTPClient({
+		onload : function() {
+			var json = this.responseText;
+			var response = JSON.parse(json);
+			if(response.logged == true) {
+				loginWin.close({
+					animated : false
+				});
+				mainWin = Smart.ui.createApplicationMainWin();
+				mainWin.open({
+					animated : false
+				});
 
-	//json response
-	loginReq.onload = function() {
-		var json = this.responseText;
-		var response = JSON.parse(json);
-		if(response.logged == true) {
-			loginWin.close();
-			mainWin = Smart.ui.createApplicationMainWin();
-			mainWin.open();
-
-		} else {
-			alert(response.message);
+			} else {
+				alert(response.message);
+			}
 		}
-	};
+	});
+
 	//verbinding met phpfile en database
 	loginBtn.addEventListener('click', function() {
 		if(personeelNummer.value != '') {
@@ -143,12 +142,13 @@
 			alert("Gelieve uw personeelskaart te scannen of uw personeelsnummer in te geven.");
 		}
 	});
-	
 	//
 	//Logout
 	//
 	Titanium.App.addEventListener('app:logout', function(e) {
 		personeelNummer.value = '';
-		loginWin.open();
+		loginWin.open({
+			animated : false
+		});
 	});
 })();

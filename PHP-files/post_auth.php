@@ -1,19 +1,15 @@
 <?php
 
-//ZET DEZE FILE IN HTDOCS (MAMP) OM TE TESTEN
-//LET OP DE JUISTE NAAM VAN DE DATABASE
-//LET OP DE JUISTE TABELNAAM EN VELD
-
 // Select your MySQL host, username and password
-$con =@ new mysqli('localhost','root','root', 'SmartSell');  
-    if ($con->connect_error)  
-    {  
-        echo "Oeps, geen connectie.";  
-        exit;  
-    } 
+$con =@ new mysqli('localhost','root','root','SmartSell');  
+if ($con->connect_error)  
+{  
+	echo "Oeps, geen connectie.";  
+	exit;  
+} 
 
 $personeelNummer = $_POST['personeelNummer'];
-//$password = $_POST['password'];
+
 
 $sql = "SELECT * FROM tblPersoneel WHERE personeelNummer = '" . mysqli_real_escape_string($con,$personeelNummer) ."'";
 $query = $con->query($sql);
