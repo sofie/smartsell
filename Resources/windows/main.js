@@ -85,7 +85,6 @@
 		//
 		//Links
 		//
-		
 		var data = [Ti.UI.createTableViewRow({
 			title : 'Choco - Banaan',
 			hasChild : true
@@ -98,6 +97,9 @@
 		})];
 
 		var listLinks = Titanium.UI.createTableView({
+			top : 60,
+			left : 13,
+			right : 10,
 			data : data,
 			backgroundImage : 'img/bg.png',
 			scrollable : false,
@@ -105,6 +107,36 @@
 			style : Titanium.UI.iPhone.TableViewStyle.GROUPED
 		});
 		mainWindow.add(listLinks);
+		
+		listLinks.addEventListener('click', function(e) {
+			Smart.navGroup.open(Smart.ui.createHTTPWindow({animated:false}));
+		});
+		/*
+		var createReq = Titanium.Network.createHTTPClient({
+			onload : function() {
+				var json = this.responseText;
+				var response = JSON.parse(json);
+				if(response.getLink == true) {
+					Ti.API.info('Stringify: ' + JSON.stringify(response.result));
+
+					Titanium.API.info('Result: ' + response.linkNaam);
+					Titanium.API.info('Text: ' + this.responseText);
+					alert('Linken tonen');
+				} else {
+					alert('Er zijn nog geen links.');
+				}
+			},
+			//Databank niet ok (path, MAMP,...)
+			onerror : function(e) {
+				Ti.API.info("TEXT onerror:   " + this.responseText);
+				alert('Er is iets mis met de databank.');
+			},
+			timeout : 5000
+		});
+
+		createReq.open("POST", "http://localhost/AuthSmartsell/post_getlinks.php");
+		createReq.send();
+*/
 		//
 		//Logout
 		//
@@ -117,40 +149,12 @@
 			right : 'auto'
 		});
 		mainWindow.add(logoutButton);
-		
+
 		logoutButton.addEventListener('click', function() {
 			mainWindow.close();
 			Ti.App.fireEvent('app:logout', {
 				action : 'Logout klik'
 			});
 		});
-
-
-		//
-		//Get links service
-		//
-		var createReq = Titanium.Network.createHTTPClient();
-
-		createReq.onload = function() {
-			var json = this.responseText;
-			var response = JSON.parse(json);
-
-			if(response.add == true) {
-				Titanium.API.info('Ok');
-			} else {
-				Titanium.API.info('Niet ok');
-			}
-		};
-		btnCreateLijstje.addEventListener('click', function(e) {
-			Ti.API.info('Nieuwe koppeling: ' + nameKoppeling.value);
-			if(nameKoppeling.value != '') {
-				createReq.open("POST", "http://localhost/AuthSmartsell/post_getlink.php");
-				var params = {
-					linkNaam : nameKoppeling.value
-				};
-				createReq.send(params);
-			}
-		});
-		
 	}
 })();

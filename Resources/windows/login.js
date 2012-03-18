@@ -116,6 +116,7 @@
 			var json = this.responseText;
 			var response = JSON.parse(json);
 			if(response.logged == true) {
+
 				loginWin.close({
 					animated : false
 				});
@@ -127,7 +128,12 @@
 			} else {
 				alert(response.message);
 			}
-		}
+		},
+		onerror : function(e) {
+			Ti.API.info('error, HTTP status = ' + this.status);
+			alert("Connection error.");
+		},
+		timeout : 5000
 	});
 
 	//verbinding met phpfile en database

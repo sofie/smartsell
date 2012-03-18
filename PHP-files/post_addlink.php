@@ -29,7 +29,6 @@ if (!$conn -> connect_error)
 			echo json_encode($response);
 			$conn -> close();
 		} 
-		
 	}
 } 
 else 

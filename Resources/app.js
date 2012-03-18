@@ -9,6 +9,6 @@ Ti.include(
 	'windows/login.js',
 	'windows/main.js',
 	
-	'windows/nieuweKoppelingWindow.js'
-	
+	'windows/nieuweKoppelingWindow.js',
+	'windows/getStuff.js'
 );

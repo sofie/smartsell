@@ -51,6 +51,11 @@
 			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
 			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 		});
+		/*
+		var picker = Titanium.UI.createPicker({
+			top:15,
+			type : Titanium.UI.PICKER_TYPE_DATE_AND_TIME
+		});*/
 
 		var btnCreateLijstje = Titanium.UI.createButton({
 			backgroundImage : 'img/btn_maken.png',
@@ -59,20 +64,18 @@
 			right : 20,
 			top : 15
 		});
-		
+
 		var createReq = Titanium.Network.createHTTPClient({
 			onload : function() {
 				var json = this.responseText;
 				var response = JSON.parse(json);
-							
 				if(response.add == true) {
 					alert('Link is toegevoegd aan databank.');
-					Titanium.API.info('Qry: '+this.responseText);
+					Titanium.API.info('Qry: ' + this.responseText);
 				} else {
 					alert('Link bestaat al.');
 				}
 			},
-			
 			//Databank niet ok (path, MAMP,...)
 			onerror : function(e) {
 				Ti.API.info("TEXT onerror:   " + this.responseText);
@@ -88,14 +91,16 @@
 					linkNaam : linkNaam.value
 				};
 				createReq.send(params);
-			}else{
+			} else {
 				alert('Gelieve een naam in te vullen.');
 			}
 		});
 
 		addKoppelingWin.add(linkNaam);
+		/*addKoppelingWin.add(picker);
+		Titanium.API.info(picker.value);*/
 		addKoppelingWin.add(btnCreateLijstje);
-		
+
 		return addKoppelingWin;
 	};
 })();
