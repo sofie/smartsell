@@ -104,10 +104,15 @@
 			backgroundImage : 'img/bg.png',
 			scrollable : false,
 			fullscreen : false,
-			style : Titanium.UI.iPhone.TableViewStyle.GROUPED
+			style : Titanium.UI.iPhone.TableViewStyle.GROUPED,
+		//
+			editable:true,
+			allowsSelectionDuringEditing:true
+		//
 		});
 		mainWindow.add(listLinks);
 		
+
 		listLinks.addEventListener('click', function(e) {
 			Smart.navGroup.open(Smart.ui.createHTTPWindow({animated:false}));
 		});
@@ -137,6 +142,27 @@
 		createReq.open("POST", "http://localhost/AuthSmartsell/post_getlinks.php");
 		createReq.send();
 */
+
+	//	
+		listLinks.addEventListener('click', function(e)
+		{
+			// event data
+			var index = e.index;
+			var section = e.section;
+			var row = e.row;
+			var rowdata = e.rowData;
+			Titanium.UI.createAlertDialog({title:'Table View',message:'row ' + row + ' index ' + index + ' section ' + section  + ' row data ' + rowdata}).show();
+		});
+
+		// add delete event listener
+		listLinks.addEventListener('delete',function(e)
+		{
+			var s = e.section;
+			Ti.API.info('rows ' + s.rows + ' rowCount ' + s.rowCount + ' headerTitle ' + s.headerTitle + ' title ' + e.rowData.title);
+		
+			Titanium.API.info("deleted - row="+e.row+", index="+e.index+", section="+e.section + ' foo ' + e.rowData.foo);
+		});
+	//
 		//
 		//Logout
 		//
