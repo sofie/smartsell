@@ -30,19 +30,18 @@
 			});
 		});
 		imageWin.leftNavButton = backButton;
-		
+
 		//
 		//Inhoud window
 		//
-		//https://wiki.appcelerator.org/display/guides/HTTPClient+and+the+Request+Lifecycle
 		var xhr = Ti.Network.createHTTPClient({
 			onload : function(e) {
 				var img = Ti.UI.createImageView({
 					image : this.responseData,
-					width:128,
-					top:20,
-					height:128,
-					left:20
+					width : 128,
+					top : 20,
+					height : 128,
+					left : 20
 				});
 				imageWin.add(img);
 			},
@@ -50,12 +49,14 @@
 				Ti.API.info('error, HTTP status = ' + this.status);
 				alert(e.error);
 			},
-			timeout : 5000  
+			timeout : 5000
 		});
 		xhr.open("GET", 'http://www.digyourowngrave.com/content/nutella.jpg');
 		xhr.send();
-		// request is actually sent with this statement
-		
+
+		imageWin.addEventListener('itemSelected', function(e) {
+			Titanium.API.info('Item: '+e.link);
+		});
 		return imageWin;
 	};
 })();

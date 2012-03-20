@@ -122,7 +122,9 @@
 					} else {
 
 						for(var i = 0; i < links.length; i++) {
-							var link = links[i].linknaam;
+							var linknaam = links[i].linkNaam;
+							var linkprod1 = links[i].productNaam;
+							
 
 							var row = Ti.UI.createTableViewRow({
 								height : 35,
@@ -130,7 +132,7 @@
 							});
 
 							var name = Ti.UI.createLabel({
-								text : link,
+								text : linknaam,
 								left : 10,
 								width : 'auto',
 								height : 'auto',
@@ -140,8 +142,20 @@
 									fontSize : 15
 								}
 							});
+							var prod1 = Ti.UI.createLabel({
+								text : linkprod1,
+								right : 10,
+								width : 'auto',
+								height : 'auto',
+								textAlign : 'left',
+								font : {
+									fontFamily : 'Bree serif',
+									fontSize : 12
+								}
+							});
 
 							row.add(name);
+							row.add(prod1);
 							row.className = 'item' + i;
 							data[i] = row;
 						};
@@ -151,7 +165,6 @@
 							left : 13,
 							right : 10,
 							bottom : 64,
-							//height : 120,
 							data : data,
 							backgroundImage : 'img/bg.png',
 							style : Titanium.UI.iPhone.TableViewStyle.GROUPED,

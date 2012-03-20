@@ -3,16 +3,20 @@
 $conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
 
 if (!$conn -> connect_error) {
-	$qry = "SELECT linkNaam FROM tblLink LIMIT 0, 30";
-
-	$query = $conn -> query($qry);
 	
-	if ($num_rows = $query -> num_rows > 0) {
+	
+	$qry = "SELECT linkNaam, productMerk
+			FROM tblLink
+			INNER JOIN tblProduct ON ( tblProduct.productId = tblLink.linkProduct1 )";
+
+	$result = $conn -> query($qry);
+	$singleResult = mysqli_fetch_assoc($result);
+
+	if ($num_rows = $result -> num_rows > 0) {
 		$list = array();
-		$result = $conn -> query($qry);
 
 		while ($singleResult = mysqli_fetch_assoc($result)) {
-			$response = array("getLink" => true, "linknaam" => $singleResult['linkNaam']);
+			$response = array("getLink" => true, "linkNaam" => $singleResult['linkNaam'], "productNaam" => $singleResult['productMerk']);
 			$list[] = $response;
 		};
 		echo json_encode($list);

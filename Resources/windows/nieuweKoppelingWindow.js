@@ -40,7 +40,7 @@
 			left : 20,
 			right : 20,
 			height : 40,
-			hintText : 'Nieuwe koppeling',
+			hintText : 'Naam koppeling',
 			font : {
 				fontSize : 15,
 				fontFamily : 'Bree Serif'
@@ -51,11 +51,26 @@
 			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
 			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 		});
-		/*
-		 var picker = Titanium.UI.createPicker({
-		 top:15,
-		 type : Titanium.UI.PICKER_TYPE_DATE_AND_TIME
-		 });*/
+		addKoppelingWin.add(linkNaam);
+		
+		var linkProduct1 = Titanium.UI.createTextField({
+			color : '#888',
+			top : 10,
+			left : 20,
+			right : 20,
+			height : 40,
+			hintText : 'Product 1',
+			font : {
+				fontSize : 15,
+				fontFamily : 'Bree Serif'
+			},
+			opacity : 0.65,
+			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
+			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
+			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
+		});
+		addKoppelingWin.add(linkProduct1);
 
 		var btnCreateLijstje = Titanium.UI.createButton({
 			backgroundImage : 'img/btn_maken.png',
@@ -64,6 +79,8 @@
 			right : 20,
 			top : 15
 		});
+		addKoppelingWin.add(btnCreateLijstje);
+
 
 		var createReq = Titanium.Network.createHTTPClient({
 			onload : function() {
@@ -94,7 +111,8 @@
 			if(linkNaam.value != '') {
 				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 				var params = {
-					linkNaam : linkNaam.value
+					linkNaam : linkNaam.value,
+					linkProduct1 : linkProduct1.value
 				};
 				createReq.send(params);
 			} else {
@@ -102,11 +120,7 @@
 			}
 		});
 
-		addKoppelingWin.add(linkNaam);
-		/*addKoppelingWin.add(picker);
-		 Titanium.API.info(picker.value);*/
-		addKoppelingWin.add(btnCreateLijstje);
-
+		
 		return addKoppelingWin;
 	};
 })();
