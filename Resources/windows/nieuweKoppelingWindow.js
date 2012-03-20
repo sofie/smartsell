@@ -52,10 +52,10 @@
 			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 		});
 		/*
-		var picker = Titanium.UI.createPicker({
-			top:15,
-			type : Titanium.UI.PICKER_TYPE_DATE_AND_TIME
-		});*/
+		 var picker = Titanium.UI.createPicker({
+		 top:15,
+		 type : Titanium.UI.PICKER_TYPE_DATE_AND_TIME
+		 });*/
 
 		var btnCreateLijstje = Titanium.UI.createButton({
 			backgroundImage : 'img/btn_maken.png',
@@ -70,8 +70,14 @@
 				var json = this.responseText;
 				var response = JSON.parse(json);
 				if(response.add == true) {
-					alert('Link is toegevoegd aan databank.');
 					Titanium.API.info('Qry: ' + this.responseText);
+					Smart.navGroup.close(addKoppelingWin, {
+						animated : false
+					});
+					Ti.App.fireEvent('app:reloadLinks', {
+						action : 'Reload links'
+					});
+
 				} else {
 					alert('Link bestaat al.');
 				}
@@ -86,7 +92,7 @@
 
 		btnCreateLijstje.addEventListener('click', function(e) {
 			if(linkNaam.value != '') {
-				createReq.open("POST", "http://localhost/AuthSmartsell/post_addlink.php");
+				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 				var params = {
 					linkNaam : linkNaam.value
 				};
@@ -98,7 +104,7 @@
 
 		addKoppelingWin.add(linkNaam);
 		/*addKoppelingWin.add(picker);
-		Titanium.API.info(picker.value);*/
+		 Titanium.API.info(picker.value);*/
 		addKoppelingWin.add(btnCreateLijstje);
 
 		return addKoppelingWin;
