@@ -1,29 +1,18 @@
 (function() {
 
 	Smart.ui.createNieuweKoppelingWindow = function() {
-		//
-		// Main window
-		//
-		var addKoppelingWin = Titanium.UI.createWindow({
-			barImage : 'img/header.png',
-			layout : 'vertical'
-		});
+		var addKoppelingWin = Titanium.UI.createWindow(commonStyle.window);
+		
 		var lblAddTitle = Titanium.UI.createLabel({
 			text : 'Nieuwe koppeling',
 			color : '#fff',
-			font : {
-				fontFamily : 'Bree Serif',
-				fontSize : 24
-			}
+			font : FontTitle
 		});
 		addKoppelingWin.setTitleControl(lblAddTitle);
 
 		//Backbutton
-		var backButton = Titanium.UI.createButton({
-			backgroundImage : "img/btn_back.png",
-			width : 57,
-			height : 35
-		});
+		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		
 		backButton.addEventListener('click', function() {
 			Smart.navGroup.close(addKoppelingWin, {
 				animated : false
@@ -41,10 +30,7 @@
 			right : 20,
 			height : 40,
 			hintText : 'Naam koppeling',
-			font : {
-				fontSize : 15,
-				fontFamily : 'Bree Serif'
-			},
+			font : FontTextField,
 			opacity : 0.65,
 			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
 			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
@@ -60,10 +46,7 @@
 			right : 20,
 			height : 40,
 			hintText : 'Product 1',
-			font : {
-				fontSize : 15,
-				fontFamily : 'Bree Serif'
-			},
+			font : FontTextField,
 			opacity : 0.65,
 			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
 			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,

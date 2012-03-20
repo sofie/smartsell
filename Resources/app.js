@@ -1,6 +1,6 @@
 var Ti;
-
-Titanium.UI.setBackgroundImage('img/bg.png');
+Titanium.include('styles/font_styles.js');
+var commonStyle = require('styles/common_styles').commonStyles();
 
 Ti.include('smart/smart.js');
 
@@ -9,6 +9,6 @@ Ti.include(
 	'windows/login.js',
 	'windows/main.js',
 	
-	'windows/nieuweKoppelingWindow.js',
+	'windows/nieuweKoppeling.js',
 	'windows/getStuff.js'
 );

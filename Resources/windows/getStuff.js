@@ -4,26 +4,20 @@
 		//
 		// Main window
 		//
-		var imageWin = Titanium.UI.createWindow({
-			barImage : 'img/header.png',
-			layout : 'vertical'
-		});
+		var imageWin = Titanium.UI.createWindow(commonStyle.window);
+		
 		var lblAddTitle = Titanium.UI.createLabel({
 			text : 'HTTP GET ',
 			color : '#fff',
-			font : {
-				fontFamily : 'Bree Serif',
-				fontSize : 24
-			}
+			font : FontTitle
 		});
 		imageWin.setTitleControl(lblAddTitle);
-
+		
+		
+		
 		//Backbutton
-		var backButton = Titanium.UI.createButton({
-			backgroundImage : "img/btn_back.png",
-			width : 57,
-			height : 35
-		});
+		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		
 		backButton.addEventListener('click', function() {
 			Smart.navGroup.close(imageWin, {
 				animated : false
@@ -55,7 +49,7 @@
 		xhr.send();
 
 		imageWin.addEventListener('itemSelected', function(e) {
-			Titanium.API.info('Item: '+e.link);
+			Titanium.API.info('Item: ' + e.link);
 		});
 		return imageWin;
 	};

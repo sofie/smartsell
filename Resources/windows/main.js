@@ -1,14 +1,8 @@
 (function() {
 	var navWindow;
-
+	
 	Smart.ui.createApplicationMainWin = function() {
-		var mainWindow = Titanium.UI.createWindow({
-			barImage : 'img/header.png',
-			fullscreen : false,
-			font : {
-				fontFamily : 'Bree Serif'
-			}
-		});
+		var mainWindow = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 		navWindow = Ti.UI.createWindow();
 
 		Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
@@ -26,10 +20,7 @@
 		var lblTitle = Titanium.UI.createLabel({
 			text : 'Koppelingen',
 			color : '#fff',
-			font : {
-				fontFamily : 'Bree Serif',
-				fontSize : 24
-			}
+			font : FontTitle
 		});
 		mainWindow.setTitleControl(lblTitle);
 
@@ -58,10 +49,7 @@
 			width : widthTxtField,
 			height : 40,
 			hintText : 'Zoek bestaande koppeling...',
-			font : {
-				fontSize : 15,
-				fontFamily : 'Bree Serif'
-			},
+			font : FontTextField,
 			opacity : 0.65,
 			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
 			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
@@ -107,10 +95,7 @@
 						var lblNoLinks = Titanium.UI.createLabel({
 							top : 70,
 							text : 'Er zijn nog geen links. Maak 1 aan.',
-							font : {
-								fontFamily : 'Bree serif',
-								fontSize : 15
-							},
+							font : FontNormal,
 							color : '#AC3724',
 							left : 30,
 							right : 30,
@@ -137,10 +122,7 @@
 								width : 'auto',
 								height : 'auto',
 								textAlign : 'left',
-								font : {
-									fontFamily : 'Bree serif',
-									fontSize : 15
-								}
+								font : FontNormal
 							});
 							var prod1 = Ti.UI.createLabel({
 								text : linkprod1,
