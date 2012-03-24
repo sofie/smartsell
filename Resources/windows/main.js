@@ -1,6 +1,6 @@
 (function() {
 	var navWindow;
-	
+
 	Smart.ui.createApplicationMainWin = function() {
 		var mainWindow = Titanium.UI.createWindow(commonStyle.windowNoLayout);
 		navWindow = Ti.UI.createWindow();
@@ -24,16 +24,13 @@
 		});
 		mainWindow.setTitleControl(lblTitle);
 
-		var addButton = Titanium.UI.createButton({
-			backgroundImage : "img/btn_add.png",
-			width : 37,
-			height : 35
-		});
+		var addButton = Titanium.UI.createButton(commonStyle.addButton);
+
 		addButton.addEventListener('click', function(e) {
 			//mainWindow.close();
-			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow({
+			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow(), {
 				animated : false
-			}));
+			});
 		});
 		mainWindow.rightNavButton = addButton;
 
@@ -42,37 +39,6 @@
 		//
 		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 43 - 45;
 
-		var searchField = Titanium.UI.createTextField({
-			color : '#888',
-			top : 12,
-			left : 23,
-			width : widthTxtField,
-			height : 40,
-			hintText : 'Zoek bestaande koppeling...',
-			font : FontTextField,
-			opacity : 0.65,
-			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
-			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
-		});
-
-		var btnSearch = Titanium.UI.createButton({
-			backgroundImage : 'img/btn_search.png',
-			width : 43,
-			height : 42,
-			right : 20,
-			top : 12
-		});
-		btnSearch.addEventListener('click', function(e) {
-			Ti.API.info('Zoek koppeling: ' + searchField.value)
-		});
-		mainWindow.add(searchField);
-		mainWindow.add(btnSearch);
-
-		//
-		//Haal linken op uit databank
-		//
 		Titanium.App.addEventListener('app:reloadLinks', function(e) {
 			getLinks();
 		});
@@ -107,14 +73,20 @@
 					} else {
 
 						for(var i = 0; i < links.length; i++) {
+							var linkid = links[i].linkId;
 							var linknaam = links[i].linkNaam;
 							var linkprod1 = links[i].productNaam;
-							
+
+							var searchbar = Ti.UI.createSearchBar({
+								barColor : 'transparent',
+								showCancel : false
+							});
 
 							var row = Ti.UI.createTableViewRow({
 								height : 35,
 								rightImage : 'img/arrow.png'
 							});
+							row.filter = links[i].linkNaam;
 
 							var name = Ti.UI.createLabel({
 								text : linknaam,
@@ -122,6 +94,7 @@
 								width : 'auto',
 								height : 'auto',
 								textAlign : 'left',
+								color : '#474240',
 								font : FontNormal
 							});
 							var prod1 = Ti.UI.createLabel({
@@ -129,11 +102,9 @@
 								right : 10,
 								width : 'auto',
 								height : 'auto',
+								color : '#474240',
 								textAlign : 'left',
-								font : {
-									fontFamily : 'Bree serif',
-									fontSize : 12
-								}
+								font : FontSmall
 							});
 
 							row.add(name);
@@ -143,27 +114,34 @@
 						};
 
 						var listLinks = Titanium.UI.createTableView({
-							top : 52,
-							left : 13,
-							right : 10,
+							top : 0,
+							left : 0,
+							right : 0,
 							bottom : 64,
 							data : data,
+
+							search : searchbar,
+							filterAttribute : 'filter',
+							hideSearchOnSelection : false,
+
 							backgroundImage : 'img/bg.png',
-							style : Titanium.UI.iPhone.TableViewStyle.GROUPED,
-							opacity : 0.7
+							style : Titanium.UI.iPhone.TableViewStyle.GROUPED
 						});
 						mainWindow.add(listLinks);
 
 						//Open detail van window
 						listLinks.addEventListener('click', function(e) {
-							Smart.navGroup.open(Smart.ui.createHTTPWindow({
+							Titanium.App.selectedIndex = links[e.index].linkId;
+							Titanium.App.selectedNaam = links[e.index].linkNaam;
+							Titanium.App.selectedProd1 = links[e.index].productNaam;
+							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 								animated : false
-							}));
+							});
 						});
 					}
 
-				} catch(E) {
-					alert(E);
+				} catch(e) {
+					alert(e);
 				}
 			};
 			getReq.onerror = function(e) {

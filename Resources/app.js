@@ -1,8 +1,11 @@
-var Ti;
+var Smart = {
+    ui: {},
+    navGroup: undefined
+};
+
 Titanium.include('styles/font_styles.js');
 var commonStyle = require('styles/common_styles').commonStyles();
 
-Ti.include('smart/smart.js');
 
 //windows & ui
 Ti.include(
@@ -10,5 +13,5 @@ Ti.include(
 	'windows/main.js',
 	
 	'windows/nieuweKoppeling.js',
-	'windows/getStuff.js'
+	'windows/detail_link.js'
 );

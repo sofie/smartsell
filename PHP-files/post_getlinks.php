@@ -5,7 +5,7 @@ $conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
 if (!$conn -> connect_error) {
 	
 	
-	$qry = "SELECT linkNaam, productMerk
+	$qry = "SELECT linkNaam, productMerk, linkId
 			FROM tblLink
 			INNER JOIN tblProduct ON ( tblProduct.productId = tblLink.linkProduct1 )";
 
@@ -16,7 +16,7 @@ if (!$conn -> connect_error) {
 		$list = array();
 
 		while ($singleResult = mysqli_fetch_assoc($result)) {
-			$response = array("getLink" => true, "linkNaam" => $singleResult['linkNaam'], "productNaam" => $singleResult['productMerk']);
+			$response = array("getLink" => true, "linkNaam" => $singleResult['linkNaam'],"linkId" => $singleResult['linkId'], "productNaam" => $singleResult['productMerk']);
 			$list[] = $response;
 		};
 		echo json_encode($list);

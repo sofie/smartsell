@@ -103,7 +103,7 @@
 			var json = this.responseText;
 			var response = JSON.parse(json);
 			if(response.logged == true) {
-
+				Titanium.App.personeelNummer = personeelNummer.value;
 				loginWin.close({
 					animated : false
 				});
