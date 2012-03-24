@@ -83,7 +83,7 @@
 
 		btnCreateLijstje.addEventListener('click', function(e) {
 			if(linkNaam.value != '') {
-				createReq.open("POST", "http://localhost/AuthSmartsell/post_addlink.php");
+				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 				var params = {
 					linkNaam : linkNaam.value
 				};

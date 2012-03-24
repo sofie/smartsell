@@ -118,7 +118,7 @@
 			var section = e.section;
 			var row = e.row;
 			var rowdata = e.rowData;
-			Titanium.UI.createAlertDialog({title:'Table View',message:'row ' + row + ' index ' + index + ' section ' + section  + ' row data ' + rowdata}).show();
+			//Titanium.UI.createAlertDialog({title:'Table View',message:'row ' + row + ' index ' + index + ' section ' + section  + ' row data ' + rowdata}).show();
 		});
 
 		// add delete event listener
@@ -169,7 +169,7 @@
 		btnCreateLijstje.addEventListener('click', function(e) {
 			Ti.API.info('Nieuwe koppeling: ' + nameKoppeling.value);
 			if(nameKoppeling.value != '') {
-				createReq.open("POST", "http://localhost/AuthSmartsell/post_getlink.php");
+				createReq.open("POST", "http://localhost/smartsell/post_getlink.php");
 				var params = {
 					linkNaam : nameKoppeling.value
 				};

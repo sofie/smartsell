@@ -133,7 +133,7 @@
 	//verbinding met phpfile en database
 	loginBtn.addEventListener('click', function() {
 		if(personeelNummer.value != '') {
-			loginReq.open("POST", "http://localhost/AuthSmartsell/post_auth.php");
+			loginReq.open("POST", "http://localhost/smartsell/post_auth.php");
 			var params = {
 				personeelNummer : personeelNummer.value,
 			};
