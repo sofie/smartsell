@@ -1,14 +1,17 @@
-var Ti;
+var Smart = {
+    ui: {},
+    navGroup: undefined
+};
 
-Titanium.UI.setBackgroundImage('img/bg.png');
+Titanium.include('styles/font_styles.js');
+var commonStyle = require('styles/common_styles').commonStyles();
 
-Ti.include('smart/smart.js');
 
 //windows & ui
 Ti.include(
 	'windows/login.js',
 	'windows/main.js',
 	
-	'windows/nieuweKoppelingWindow.js'
-	
+	'windows/nieuweKoppeling.js',
+	'windows/detail_link.js'
 );

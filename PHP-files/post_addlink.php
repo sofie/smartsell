@@ -4,8 +4,8 @@ $conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
 
 if (!$conn -> connect_error) 
 {
-	
 	$linkNaam = $_POST['linkNaam'];
+	$linkProduct1 = $_POST['linkProduct1'];
 
 	$qry = "SELECT linkNaam FROM tblLink WHERE linkNaam = '" . mysqli_real_escape_string($conn,$linkNaam) . "'";
 	
@@ -15,21 +15,21 @@ if (!$conn -> connect_error)
 		$response = array('add' => false);
 		echo json_encode($response);
 	} 
-	else 
+	else
 	{
-		$insert = "
-			INSERT INTO tblLink (linkNaam) 
-			VALUES ('" . mysqli_real_escape_string($conn, $linkNaam) . "')
-			";
+		$insert = 
+			"INSERT INTO tblLink (linkNaam, linkProduct1) 
+			VALUES ('" . mysqli_real_escape_string($conn, $linkNaam) . "',
+					'" . $linkProduct1 . "'
+					)";
 
 		$query = $conn -> query($insert);
 		if ($query) 
 		{
-			$response = array('add' => true, 'linkNaam' => $linkNaam);
+			$response = array('add' => true);
 			echo json_encode($response);
 			$conn -> close();
 		} 
-		
 	}
 } 
 else 

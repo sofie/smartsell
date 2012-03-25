@@ -5,7 +5,6 @@
 		barImage : 'img/header.png',
 		tabBarHidden : true,
 		modal : true,
-		//layout : 'vertical',
 		navBarHidden : false,
 		backgroundImage : 'img/bg.png'
 	});
@@ -13,10 +12,7 @@
 	var lblTitle = Titanium.UI.createLabel({
 		text : 'Inloggen',
 		color : '#fff',
-		font : {
-			fontFamily : 'Bree Serif',
-			fontSize : 24
-		}
+		font : FontTitle
 	});
 	loginWin.setTitleControl(lblTitle);
 
@@ -39,10 +35,7 @@
 		text : 'Scan de barcode van uw personeelskaart om in te loggen.',
 		left : 20,
 		top : -350,
-		font : {
-			fontSize : 15,
-			fontFamily : 'Bree Serif',
-		},
+		font : FontNormal,
 		textAlign : 'left',
 		width : '280'
 
@@ -67,10 +60,7 @@
 		text : 'Inloggen via scannen lukt niet? Log hier in.',
 		left : 20,
 		top : 180,
-		font : {
-			fontSize : 15,
-			fontFamily : 'Bree Serif'
-		},
+		font : FontNormal,
 		textAlign : 'left',
 		width : '300'
 	})
@@ -85,10 +75,7 @@
 		width : widthTxtField,
 		height : 40,
 		hintText : 'Personeelsnummer',
-		font : {
-			fontSize : 15,
-			fontFamily : 'Bree Serif'
-		},
+		font : FontTextField,
 		opacity : 0.65,
 		keyboardType : Titanium.UI.KEYBOARD_NUMBERS_PUNCTUATION,
 		returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
@@ -116,6 +103,7 @@
 			var json = this.responseText;
 			var response = JSON.parse(json);
 			if(response.logged == true) {
+				Titanium.App.personeelNummer = personeelNummer.value;
 				loginWin.close({
 					animated : false
 				});
@@ -127,7 +115,12 @@
 			} else {
 				alert(response.message);
 			}
-		}
+		},
+		onerror : function(e) {
+			Ti.API.info('error, HTTP status = ' + this.status);
+			alert("Connection error.");
+		},
+		timeout : 5000
 	});
 
 	//verbinding met phpfile en database
