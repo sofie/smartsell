@@ -6,6 +6,7 @@ if (!$conn -> connect_error)
 {
 	$linkNaam = $_POST['linkNaam'];
 	$linkProduct1 = $_POST['linkProduct1'];
+	$linkProduct2 = $_POST['linkProduct2'];
 
 	$qry = "SELECT linkNaam FROM tblLink WHERE linkNaam = '" . mysqli_real_escape_string($conn,$linkNaam) . "'";
 	
@@ -18,9 +19,10 @@ if (!$conn -> connect_error)
 	else
 	{
 		$insert = 
-			"INSERT INTO tblLink (linkNaam, linkProduct1) 
+			"INSERT INTO tblLink (linkNaam, linkProduct1, linkProduct2) 
 			VALUES ('" . mysqli_real_escape_string($conn, $linkNaam) . "',
-					'" . $linkProduct1 . "'
+					'" . $linkProduct1 . "',
+					'" . $linkProduct2 . "'
 					)";
 
 		$query = $conn -> query($insert);

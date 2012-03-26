@@ -54,6 +54,22 @@
 			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 		});
 		addKoppelingWin.add(linkProduct1);
+		
+		var linkProduct2 = Titanium.UI.createTextField({
+			color : '#888',
+			top : 10,
+			left : 20,
+			right : 20,
+			height : 40,
+			hintText : 'Product 2',
+			font : FontTextField,
+			opacity : 0.65,
+			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
+			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
+			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
+		});
+		addKoppelingWin.add(linkProduct2);
 
 		var btnCreateLijstje = Titanium.UI.createButton({
 			backgroundImage : 'img/btn_maken.png',
@@ -95,7 +111,8 @@
 				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 				var params = {
 					linkNaam : linkNaam.value,
-					linkProduct1 : linkProduct1.value
+					linkProduct1 : linkProduct1.value,
+					linkProduct2 : linkProduct2.value
 				};
 				createReq.send(params);
 			} else {

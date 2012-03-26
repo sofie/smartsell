@@ -6,23 +6,35 @@ if (!$conn -> connect_error) {
 	
 	$linkId = $_POST['linkId'];
 	
-	$qry = "SELECT linkNaam, productMerk
+	/*$qry = "SELECT linkNaam, productMerk, productTitel, productBeschrijving, productPrijsStuk, productFoto, tblProduct.productId
+			FROM tblBevat
+			INNER JOIN tblProduct ON (tblProduct.productId = tblBevat.bevatId)
+			INNER JOIN tblLink ON (tblLink.linkId = tblBevat.linkId)
+			WHERE tblBevat.linkId ='" .$linkId. "'";*/
+	$qry = "SELECT linkNaam, productMerk, productTitel, productBeschrijving, productPrijsStuk, productFoto, productId
 			FROM tblLink
-			INNER JOIN tblProduct ON(tblProduct.productId = tblLink.linkProduct1)
-			WHERE linkId = '".$linkId."'";
+			INNER JOIN tblProduct ON (tblLink.linkProduct1 = tblProduct.productId)
+			WHERE linkId ='" .$linkId. "'";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
 
 	if ($num_rows = $result -> num_rows > 0) {
 
+
 			$response = array(
 				"getItem" => true, 
 				"linkNaam" => $singleResult['linkNaam'],
-				"linkProd1" => $singleResult['productMerk']
-			);
+				"pMerk" => $singleResult['productMerk'],
+				"pId" => $singleResult['productId'],
+				"pTitel" => $singleResult['productTitel'],
+				"pFoto" => $singleResult['productFoto'],
+				"pBeschrijving" => $singleResult['productBeschrijving'],
+				"pPrijs" => $singleResult['productPrijsStuk']);
+				
 	
 		echo json_encode($response);
+
 
 	} else {
 		$response = array("getItem" => false);
