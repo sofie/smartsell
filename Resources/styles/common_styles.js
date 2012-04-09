@@ -4,14 +4,15 @@ exports.commonStyles = function() {
 			width : '100%',
 			height : '100%',
 			backgroundImage:'/img/bg.png',
-			barImage : 'img/header.png',
-			layout:'vertical'
+			barImage : 'img/header_2.png',
+			layout:'vertical',
+			navBarHidden:false
 		},
 		windowNoLayout : {
 			width : '100%',
 			height : '100%',
 			backgroundImage:'/img/bg.png',
-			barImage : 'img/header.png'
+			barImage : 'img/header_2.png'
 		},
 
 		backButton : {

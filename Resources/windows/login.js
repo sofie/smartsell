@@ -98,43 +98,53 @@
 	//
 
 	//request
-	var loginReq = Titanium.Network.createHTTPClient({
-		onload : function() {
-			var json = this.responseText;
-			var response = JSON.parse(json);
-			if(response.logged == true) {
-				Titanium.App.personeelNummer = personeelNummer.value;
-				loginWin.close({
-					animated : false
-				});
-				mainWin = Smart.ui.createApplicationMainWin();
-				mainWin.open({
-					animated : false
-				});
+	function login() {
+		var loginReq = Titanium.Network.createHTTPClient();
+		loginReq.open("POST", "http://localhost/smartsell/auth.php");
+		loginReq.timeout = 5000;
 
-			} else {
-				alert(response.message);
+		var params = {
+			personeelNummer : personeelNummer.value,
+		};
+
+		loginReq.onload = function() {
+			try {
+				var json = this.responseText;
+				var response = JSON.parse(json);
+				if(response.logged == true) {
+					Titanium.App.personeelNummer = personeelNummer.value;
+					loginWin.close({
+						animated : false
+					});
+					mainWin = Smart.ui.createApplicationMainWin();
+					mainWin.open({
+						animated : false
+					});
+
+				} else {
+					alert('Link bestaat al.');
+				}
+			} catch(e) {
+				alert(e);
 			}
-		},
-		onerror : function(e) {
-			Ti.API.info('error, HTTP status = ' + this.status);
-			alert("Connection error.");
-		},
-		timeout : 5000
-	});
+		};
+		loginReq.onerror = function(e) {
+			Ti.API.info("TEXT onerror:   " + this.responseText);
+			alert('Er is iets mis met de databank.');
+		}
+
+		loginReq.send(params);
+	};
 
 	//verbinding met phpfile en database
 	loginBtn.addEventListener('click', function() {
 		if(personeelNummer.value != '') {
-			loginReq.open("POST", "http://localhost/smartsell/post_auth.php");
-			var params = {
-				personeelNummer : personeelNummer.value,
-			};
-			loginReq.send(params);
+			login();
 		} else {
 			alert("Gelieve uw personeelskaart te scannen of uw personeelsnummer in te geven.");
 		}
 	});
+	
 	//
 	//Logout
 	//
