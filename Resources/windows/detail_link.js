@@ -1,10 +1,11 @@
 (function() {
 
 	Smart.ui.createDetailWindow = function() {
-		//
-		// Main window
-		//
+
 		var detailWin = Titanium.UI.createWindow(commonStyle.window);
+		detailWin.addEventListener('open',function(){
+			getDetail();
+		});
 
 		var lblAddTitle = Titanium.UI.createLabel({
 			text : Titanium.App.selectedNaam,
@@ -23,8 +24,7 @@
 		});
 		detailWin.leftNavButton = backButton;
 
-		getLinks();
-		function getLinks() {
+		function getDetail() {
 			var getReq = Titanium.Network.createHTTPClient();
 			getReq.open("GET", "http://localhost/smartsell/get_itemdetail.php");
 			Titanium.API.info(Titanium.App.selectedIndex);
@@ -41,24 +41,25 @@
 					if(detail.getItem === false) {
 						Titanium.API.info(this.responseText);
 						var lblNoLink = Titanium.UI.createLabel({
-							text : 'Er is iets misgegaan. Link niet gevonden in databank.',
+							text : 'Deze link heeft nog geen producten.',
 							top : 30,
 							left : 30,
 							right : 30,
 							width : 'auto',
 							height : 'auto',
-							color : '#D64027'
+							color : '#D64027',
+							font:FontNormal
 						});
 						detailWin.add(lblNoLink);
 
 					} else {
+						for(var i = 0, j = detail.length; i < j; i++) {
 						
-							var pTitel = detail.pMerk + ' ' + detail.pTitel;
-							var pFoto = detail.pFoto;
-							var pBeschrijving = detail.pBeschrijving;
-							var pPrijs = detail.pPrijs;
+							var pTitel = detail[i].pMerk + ' ' + detail[i].pTitel;
+							var pFoto = detail[i].pFoto;
+							var pBeschrijving = detail[i].pBeschrijving;
+							var pPrijs = detail[i].pPrijs;
 
-							Titanium.API.info(this.responseText);
 							var bgView = Titanium.UI.createView({
 								left : 20,
 								right : 20,
@@ -126,6 +127,8 @@
 							bgView.add(prijs);
 
 							detailWin.add(bgView);
+						//data.push(row);
+						};
 						
 					}
 
@@ -139,7 +142,8 @@
 			}
 
 			getReq.send(params);
-		}
+		};
+		
 
 		return detailWin;
 	};

@@ -3,6 +3,9 @@
 
 	Smart.ui.createApplicationMainWin = function() {
 		var mainWindow = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		mainWindow.addEventListener('open', function() {
+			getLinks();
+		});
 		navWindow = Ti.UI.createWindow();
 
 		Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
@@ -27,7 +30,6 @@
 		var addButton = Titanium.UI.createButton(commonStyle.addButton);
 
 		addButton.addEventListener('click', function(e) {
-			//mainWindow.close();
 			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow(), {
 				animated : false
 			});
@@ -35,20 +37,19 @@
 		mainWindow.rightNavButton = addButton;
 
 		//
-		//Zoek bestaande koppeling
+		//Bestaande koppeling
 		//
 		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 43 - 45;
 
 		Titanium.App.addEventListener('app:reloadLinks', function(e) {
 			getLinks();
 		});
-		getLinks();
 		function getLinks() {
 
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
-			getReq.open("GET", "http://localhost/smartsell/post_getlinks.php");
+			getReq.open("GET", "http://localhost/smartsell/get_links.php");
 			getReq.timeout = 5000;
 
 			getReq.onload = function() {
@@ -58,6 +59,7 @@
 					//Er zijn nog geen linken in de databank
 					if(links.getLink == false) {
 						Titanium.API.info('Geen links');
+
 						var lblNoLinks = Titanium.UI.createLabel({
 							top : 70,
 							text : 'Er zijn nog geen links. Maak 1 aan.',
@@ -75,7 +77,6 @@
 						for(var i = 0; i < links.length; i++) {
 							var linkid = links[i].linkId;
 							var linknaam = links[i].linkNaam;
-							var linkprod1 = links[i].productNaam;
 
 							var searchbar = Ti.UI.createSearchBar({
 								barColor : 'transparent',
@@ -83,34 +84,40 @@
 							});
 
 							var row = Ti.UI.createTableViewRow({
-								height : 35,
+								height : 37,
 								rightImage : 'img/arrow.png'
 							});
 							row.filter = links[i].linkNaam;
 
+							var btnDelete = Titanium.UI.createButton({
+								title : 'X',
+								font:FontNormal,
+								color : '#AC3724',
+								top:2,
+								left:5,
+								backgroundImage:'img/btn_delete.png',
+								width:35,
+								height:33
+							});
+
 							var name = Ti.UI.createLabel({
 								text : linknaam,
-								left : 10,
+								left : 50,
 								width : 'auto',
 								height : 'auto',
 								textAlign : 'left',
 								color : '#474240',
 								font : FontNormal
 							});
-							var prod1 = Ti.UI.createLabel({
-								text : linkprod1,
-								right : 10,
-								width : 'auto',
-								height : 'auto',
-								color : '#474240',
-								textAlign : 'left',
-								font : FontSmall
-							});
-
+							
+							row.add(btnDelete);
 							row.add(name);
-							row.add(prod1);
 							row.className = 'item' + i;
 							data[i] = row;
+							
+							btnDelete.addEventListener('click',function(e){
+								Titanium.API.info('Delete');
+							});
 						};
 
 						var listLinks = Titanium.UI.createTableView({
@@ -133,7 +140,6 @@
 						listLinks.addEventListener('click', function(e) {
 							Titanium.App.selectedIndex = links[e.index].linkId;
 							Titanium.App.selectedNaam = links[e.index].linkNaam;
-							Titanium.App.selectedProd1 = links[e.index].productNaam;
 							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 								animated : false
 							});
@@ -171,6 +177,7 @@
 				action : 'Logout klik'
 			});
 		});
+		return mainWindow;
 	}
 })();
 
