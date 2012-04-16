@@ -10,7 +10,7 @@
 	});
 
 	var lblTitle = Titanium.UI.createLabel({
-		text : 'Inloggen',
+		text : 'SmartSell',
 		color : '#fff',
 		font : FontTitle
 	});
@@ -122,7 +122,7 @@
 					});
 
 				} else {
-					alert('Link bestaat al.');
+					alert('Onjuiste login.');
 				}
 			} catch(e) {
 				alert(e);

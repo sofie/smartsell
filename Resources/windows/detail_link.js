@@ -58,7 +58,7 @@
 							var pTitel = detail[i].pMerk + ' ' + detail[i].pTitel;
 							var pFoto = detail[i].pFoto;
 							var pBeschrijving = detail[i].pBeschrijving;
-							var pPrijs = detail[i].pPrijs;
+							var pPrijs = detail[i].pPrijs
 
 							var bgView = Titanium.UI.createView({
 								left : 20,
@@ -95,11 +95,24 @@
 								text : pTitel,
 								left : 20,
 								top : 10,
-								width : 'auto',
+								width : 235,
 								height : 25,
 								textAlign : 'left',
 								color : '#474240',
 								font : FontBig
+							});
+							
+							var delete_btn = Titanium.UI.createLabel({
+								text : 'X',
+								font:FontNormal,
+								color : '#AC3724',
+								top:-21,
+								right:15,
+								height:20,
+								width:'auto'
+							});
+							delete_btn.addEventListener('click',function(){
+								
 							});
 
 							var beschrijving = Titanium.UI.createLabel({
@@ -122,6 +135,7 @@
 								font : FontBig
 							});
 							bgView.add(titel);
+							bgView.add(delete_btn);
 							bgView.add(imageView);
 							bgView.add(beschrijving);
 							bgView.add(prijs);

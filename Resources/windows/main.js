@@ -21,7 +21,7 @@
 		//Navigationbar
 		//
 		var lblTitle = Titanium.UI.createLabel({
-			text : 'Koppelingen',
+			text : 'SmartSell',
 			color : '#fff',
 			font : FontTitle
 		});
@@ -82,6 +82,9 @@
 								barColor : 'transparent',
 								showCancel : false
 							});
+							searchbar.addEventListener('blur',function(){
+								
+							});
 
 							var row = Ti.UI.createTableViewRow({
 								height : 37,
@@ -99,6 +102,7 @@
 								width:35,
 								height:33
 							});
+							
 
 							var name = Ti.UI.createLabel({
 								text : linknaam,
@@ -144,6 +148,10 @@
 								animated : false
 							});
 						});
+						btnDelete.addEventListener('click',function(e){
+							
+						});
+						
 					}
 
 				} catch(e) {
