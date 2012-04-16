@@ -8,7 +8,7 @@
         <target device="blackberry">false</target>
     </deployment-targets>
     <sdk-version>1.8.1</sdk-version>
-    <id>com.smartsell</id>
+    <id>eu.lessius.smartscan</id>
     <name>smartsell</name>
     <version>1.0</version>
     <publisher>sofie</publisher>
