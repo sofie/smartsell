@@ -82,12 +82,11 @@
 								barColor : 'transparent',
 								showCancel : false
 							});
-							searchbar.addEventListener('blur',function(){
-								
-							});
 
 							var row = Ti.UI.createTableViewRow({
 								height : 37,
+								left:20,
+								right:20,
 								rightImage : 'img/arrow.png'
 							});
 							row.filter = links[i].linkNaam;
@@ -171,8 +170,8 @@
 		//
 		var logoutButton = Titanium.UI.createButton({
 			backgroundImage : 'img/btn_logout.png',
-			height : 40,
-			width : 290,
+			height : 37,
+			width : 280,
 			bottom : 10,
 			left : 'auto',
 			right : 'auto'

@@ -85,11 +85,11 @@
 	loginWin.add(personeelNummer);
 
 	var loginBtn = Titanium.UI.createButton({
-		backgroundImage : '/img/btn_inloggen.png',
-		top : 370,
+		backgroundImage : '/img/btn_login.png',
+		top : 369,
 		right : 20,
 		width : 90,
-		height : 42
+		height : 37
 	});
 	loginWin.add(loginBtn);
 
