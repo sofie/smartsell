@@ -27,30 +27,7 @@
 		animated : false
 	});
 
-	//
-	//Inloggen via scannen
-	//
-	var labelPersoneelskaart = Titanium.UI.createLabel({
-		color : '#474240',
-		text : 'Scan de barcode van uw personeelskaart om in te loggen.',
-		left : 20,
-		top : -350,
-		font : FontNormal,
-		textAlign : 'left',
-		width : '280'
-
-	})
-	loginWin.add(labelPersoneelskaart);
-
-	var afbPersoneelskaart = Titanium.UI.createImageView({
-		image : "/img/personeelskaart.png",
-		left : 'auto',
-		right : 'auto',
-		top : 70,
-		width : 247,
-		height : 181
-	})
-	loginWin.add(afbPersoneelskaart);
+	
 
 	//
 	//Inloggen via personeelsnummer
@@ -59,7 +36,7 @@
 		color : '#474240',
 		text : 'Inloggen via scannen lukt niet? Log hier in.',
 		left : 20,
-		top : 180,
+		top : -380,
 		font : FontNormal,
 		textAlign : 'left',
 		width : '300'
@@ -69,7 +46,7 @@
 	var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 40;
 	var personeelNummer = Titanium.UI.createTextField({
 		color : '#474240',
-		top : 320,
+		top : 40,
 		left : 20,
 		height : 40,
 		width : widthTxtField,
@@ -83,6 +60,31 @@
 		clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
 	});
 	loginWin.add(personeelNummer);
+	
+	//
+	//Inloggen via scannen
+	//
+	var labelPersoneelskaart = Titanium.UI.createLabel({
+		color : '#474240',
+		text : 'Scan de barcode van uw personeelskaart om in te loggen.',
+		left : 20,
+		top : -150,
+		font : FontNormal,
+		textAlign : 'left',
+		width : '280'
+
+	})
+	loginWin.add(labelPersoneelskaart);
+
+	var afbPersoneelskaart = Titanium.UI.createImageView({
+		image : "/img/personeelskaart.png",
+		left : 'auto',
+		right : 'auto',
+		top : 160,
+		width : 247,
+		height : 181
+	})
+	loginWin.add(afbPersoneelskaart);
 
 	var loginBtn = Titanium.UI.createButton({
 		backgroundImage : '/img/btn_login.png',
