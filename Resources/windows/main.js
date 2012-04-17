@@ -52,6 +52,30 @@
 			getReq.open("GET", "http://localhost/smartsell/get_links.php");
 			getReq.timeout = 5000;
 
+		var listLinks = Titanium.UI.createTableView({
+			data : data,
+			backgroundImage : 'img/bg.png',
+			scrollable : false,
+			fullscreen : false,
+			style : Titanium.UI.iPhone.TableViewStyle.GROUPED,
+		//
+			editable:true,
+			allowsSelectionDuringEditing:true
+		//
+		});
+		mainWindow.add(listLinks);
+		
+	//	
+		listLinks.addEventListener('click', function(e)
+		{
+			// event data
+			var index = e.index;
+			var section = e.section;
+			var row = e.row;
+			var rowdata = e.rowData;
+			//Titanium.UI.createAlertDialog({title:'Table View',message:'row ' + row + ' index ' + index + ' section ' + section  + ' row data ' + rowdata}).show();
+		});
+
 			getReq.onload = function() {
 				try {
 					var links = JSON.parse(this.responseText);
@@ -165,6 +189,7 @@
 			getReq.send();
 		}
 
+
 		//
 		//Logout
 		//
@@ -187,25 +212,3 @@
 		return mainWindow;
 	}
 })();
-
-/*
-
- listLinks.addEventListener('click', function(e) {
- // event data
- var index = e.index;
- var section = e.section;
- var row = e.row;
- var rowdata = e.rowData;
- Titanium.UI.createAlertDialog({
- title : 'Table View',
- message : 'row ' + row + ' index ' + index + ' section ' + section + ' row data ' + rowdata
- }).show();
- });
- // add delete event listener
- listLinks.addEventListener('delete', function(e) {
- var s = e.section;
- Ti.API.info('rows ' + s.rows + ' rowCount ' + s.rowCount + ' headerTitle ' + s.headerTitle + ' title ' + e.rowData.title);
-
- Titanium.API.info("deleted - row=" + e.row + ", index=" + e.index + ", section=" + e.section + ' foo ' + e.rowData.foo);
- });
- */
