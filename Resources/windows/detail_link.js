@@ -2,20 +2,20 @@
 
 	Smart.ui.createDetailWindow = function() {
 
-		var detailWin = Titanium.UI.createWindow(commonStyle.window);
+		var detailWin = Titanium.UI.createWindow(Smart.combine(style.Window,{
+			layout:'vertical'
+		}));
 		detailWin.addEventListener('open',function(){
 			getDetail();
 		});
 
-		var lblAddTitle = Titanium.UI.createLabel({
-			text : Titanium.App.selectedNaam,
-			color : '#fff',
-			font : FontTitle
-		});
-		detailWin.setTitleControl(lblAddTitle);
+		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar,{
+			text : Titanium.App.selectedNaam
+		}));
+		detailWin.setTitleControl(lblTitle);
 
 		//Backbutton
-		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		var backButton = Titanium.UI.createButton(style.backButton);
 
 		backButton.addEventListener('click', function() {
 			Smart.navGroup.close(detailWin, {
@@ -40,16 +40,10 @@
 					//Er zijn nog geen linken in de databank
 					if(detail.getItem === false) {
 						Titanium.API.info(this.responseText);
-						var lblNoLink = Titanium.UI.createLabel({
+						var lblNoLink = Titanium.UI.createLabel(Smart.combine(style.textError,{
 							text : 'Deze link heeft nog geen producten.',
-							top : 30,
-							left : 30,
-							right : 30,
-							width : 'auto',
-							height : 'auto',
-							color : '#D64027',
-							font:FontNormal
-						});
+							top : 30
+						}));
 						detailWin.add(lblNoLink);
 
 					} else {
@@ -60,14 +54,7 @@
 							var pBeschrijving = detail[i].pBeschrijving;
 							var pPrijs = detail[i].pPrijs
 
-							var bgView = Titanium.UI.createView({
-								left : 20,
-								right : 20,
-								top : 20,
-								backgroundColor : '#FCFAFA',
-								height : 200,
-								layout : 'vertical'
-							});
+							var bgView = Titanium.UI.createView(style.bgProduct);
 
 							var cropView = Titanium.UI.createView({
 								width : 100,
@@ -88,52 +75,27 @@
 								width : 100,
 								height : 100,
 								left : 20,
-								top : 10
+								top : 45
 							});
 
-							var titel = Titanium.UI.createLabel({
-								text : pTitel,
-								left : 20,
-								top : 10,
-								width : 235,
-								height : 25,
-								textAlign : 'left',
-								color : '#474240',
-								font : FontBig
-							});
+							var titel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
+								text : pTitel
+							}));
 							
-							var delete_btn = Titanium.UI.createLabel({
-								text : 'X',
-								font:FontNormal,
-								color : '#AC3724',
-								top:-21,
-								right:15,
-								height:20,
-								width:'auto'
-							});
+							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete,{
+								text : 'X'
+							}));
 							delete_btn.addEventListener('click',function(){
 								
 							});
 
-							var beschrijving = Titanium.UI.createLabel({
-								text : pBeschrijving,
-								left : 130,
-								right : 20,
-								top : -110,
-								height : 80,
-								textAlign : 'left',
-								color : '#474240',
-								font : FontNormal
-							});
-							var prijs = Titanium.UI.createLabel({
-								text : '€ ' + pPrijs,
-								right : 20,
-								top : 20,
-								height : 30,
-								textAlign : 'right',
-								color : '#474240',
-								font : FontBig
-							});
+							var beschrijving = Titanium.UI.createLabel(Smart.combine(style.textProductDescription,{
+								text:pBeschrijving
+							}));
+							
+							var prijs = Titanium.UI.createLabel(Smart.combine(style.textProductPrice,{
+								text : '€ ' + pPrijs
+							}));
 							bgView.add(titel);
 							bgView.add(delete_btn);
 							bgView.add(imageView);

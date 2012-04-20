@@ -1,22 +1,17 @@
 (function() {
 
 	Smart.ui.createNieuweKoppelingWindow = function() {
-		var addKoppelingWin = Titanium.UI.createWindow({
-			barImage : 'img/header.png',
-			backgroundImage : 'img/bg.png',
-			layout:'vertical',
-			navBarHidden:false
-		});
-
-		var lblAddTitle = Titanium.UI.createLabel({
-			text : 'Nieuwe koppeling',
-			color : '#fff',
-			font : FontTitle
-		});
-		addKoppelingWin.setTitleControl(lblAddTitle);
+		var addKoppelingWin = Titanium.UI.createWindow(Smart.combine(style.Window,{
+			layout:'vertical'
+		}));
+		
+		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar,{
+			text : 'Nieuwe koppeling'
+		}));
+		addKoppelingWin.setTitleControl(lblTitle);
 
 		//Backbutton
-		var backButton = Titanium.UI.createButton(commonStyle.backButton);
+		var backButton = Titanium.UI.createButton(style.backButton);
 
 		backButton.addEventListener('click', function() {
 			Smart.navGroup.close(addKoppelingWin, {
@@ -28,61 +23,25 @@
 		//
 		//Inhoud window
 		//
-		var linkNaam = Titanium.UI.createTextField({
-			color : '#888',
+		var linkNaam = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
-			left : 20,
-			right : 20,
-			height : 40,
 			hintText : 'Naam koppeling',
-			font : FontTextField,
-			opacity : 0.65,
-			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
-			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
-		});
+		}));
 		addKoppelingWin.add(linkNaam);
 
-		var linkProduct1 = Titanium.UI.createTextField({
-			color : '#888',
+		var linkProduct1 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
-			left : 20,
-			right : 20,
-			height : 40,
-			hintText : 'Product 1',
-			font : FontTextField,
-			opacity : 0.65,
-			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
-			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
-		});
+			hintText : 'Product 1'
+		}));
 		addKoppelingWin.add(linkProduct1);
 
-		var linkProduct2 = Titanium.UI.createTextField({
-			color : '#888',
+		var linkProduct2 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
-			left : 20,
-			right : 20,
-			height : 40,
-			hintText : 'Product 2',
-			font : FontTextField,
-			opacity : 0.65,
-			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
-			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
-		});
+			hintText : 'Product 2'
+		}));
 		addKoppelingWin.add(linkProduct2);
 
-		var btnCreateLijstje = Titanium.UI.createButton({
-			backgroundImage : 'img/btn_maken.png',
-			width : 100,
-			height : 42,
-			right : 20,
-			top : 15
-		});
+		var btnCreateLijstje = Titanium.UI.createButton(style.makenButton);
 		addKoppelingWin.add(btnCreateLijstje);
 
 

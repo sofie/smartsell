@@ -2,9 +2,10 @@
 	var navWindow;
 
 	Smart.ui.createApplicationMainWin = function() {
-		var mainWindow = Titanium.UI.createWindow(commonStyle.windowNoLayout);
+		var mainWindow = Titanium.UI.createWindow(style.Window);
 		mainWindow.addEventListener('open', function() {
 			getLinks();
+			Ti.API.info('Main win open');
 		});
 		navWindow = Ti.UI.createWindow();
 
@@ -20,14 +21,12 @@
 		//
 		//Navigationbar
 		//
-		var lblTitle = Titanium.UI.createLabel({
-			text : 'SmartSell',
-			color : '#fff',
-			font : FontTitle
-		});
+		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar, {
+			text : 'SmartSell'
+		}));
 		mainWindow.setTitleControl(lblTitle);
 
-		var addButton = Titanium.UI.createButton(commonStyle.addButton);
+		var addButton = Titanium.UI.createButton(style.addButton);
 
 		addButton.addEventListener('click', function(e) {
 			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow(), {
@@ -35,10 +34,26 @@
 			});
 		});
 		mainWindow.rightNavButton = addButton;
+		
+		var searchbar = Ti.UI.createSearchBar({
+			barColor : 'transparent',
+			showCancel : false
+		});
+		
+		searchbar.addEventListener('change',function(){
+			if(Titanium.App.datalist===0){
+				var lblNo = Titanium.UI.createLabel(Stuk.combine(style.textError,{
+					text : 'Geen linken gevonden voor "'+searchbar.value+'". Probeer een andere zoekterm.',
+				}));
+			mainWindow.add(lblNo);
+			}
+		});
+						
 
 		//
 		//Bestaande koppeling
 		//
+		
 		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 43 - 45;
 
 		Titanium.App.addEventListener('app:reloadLinks', function(e) {
@@ -52,48 +67,20 @@
 			getReq.open("GET", "http://localhost/smartsell/get_links.php");
 			getReq.timeout = 5000;
 
-		var listLinks = Titanium.UI.createTableView({
-			data : data,
-			backgroundImage : 'img/bg.png',
-			scrollable : false,
-			fullscreen : false,
-			style : Titanium.UI.iPhone.TableViewStyle.GROUPED,
-		//
-			editable:true,
-			allowsSelectionDuringEditing:true
-		//
-		});
-		mainWindow.add(listLinks);
-		
-	//	
-		listLinks.addEventListener('click', function(e)
-		{
-			// event data
-			var index = e.index;
-			var section = e.section;
-			var row = e.row;
-			var rowdata = e.rowData;
-			//Titanium.UI.createAlertDialog({title:'Table View',message:'row ' + row + ' index ' + index + ' section ' + section  + ' row data ' + rowdata}).show();
-		});
-
 			getReq.onload = function() {
 				try {
 					var links = JSON.parse(this.responseText);
+					Titanium.App.list = links;
+					Titanium.App.datalist = links.length;
 
 					//Er zijn nog geen linken in de databank
-					if(links.getLink == false) {
+					if(links.getLink === false) {
 						Titanium.API.info('Geen links');
 
-						var lblNoLinks = Titanium.UI.createLabel({
+						var lblNoLinks = Titanium.UI.createLabel(Smart.combine(style.textError,{
 							top : 70,
-							text : 'Er zijn nog geen links. Maak 1 aan.',
-							font : FontNormal,
-							color : '#AC3724',
-							left : 30,
-							right : 30,
-							width : 300,
-							height : 'auto'
-						});
+							text : 'Er zijn nog geen links. Maak 1 aan.'
+						}));
 						mainWindow.add(lblNoLinks);
 
 					} else {
@@ -101,66 +88,31 @@
 						for(var i = 0; i < links.length; i++) {
 							var linkid = links[i].linkId;
 							var linknaam = links[i].linkNaam;
-
-							var searchbar = Ti.UI.createSearchBar({
-								barColor : 'transparent',
-								showCancel : false
-							});
-
+							
 							var row = Ti.UI.createTableViewRow({
 								height : 37,
-								left:20,
-								right:20,
 								rightImage : 'img/arrow.png'
 							});
 							row.filter = links[i].linkNaam;
-
-							var btnDelete = Titanium.UI.createButton({
-								title : 'X',
-								font:FontNormal,
-								color : '#AC3724',
-								top:2,
-								left:5,
-								backgroundImage:'img/btn_delete.png',
-								width:35,
-								height:33
-							});
 							
 
-							var name = Ti.UI.createLabel({
+
+							var name = Ti.UI.createLabel(Smart.combine(style.textNormal,{
 								text : linknaam,
-								left : 50,
-								width : 'auto',
-								height : 'auto',
-								textAlign : 'left',
-								color : '#474240',
-								font : FontNormal
-							});
+								left : 15,
+								height:20,
+								width:250
+							}));
 							
-							row.add(btnDelete);
 							row.add(name);
 							row.className = 'item' + i;
 							data[i] = row;
-							
-							btnDelete.addEventListener('click',function(e){
-								Titanium.API.info('Delete');
-							});
 						};
 
-						var listLinks = Titanium.UI.createTableView({
-							top : 0,
-							left : 0,
-							right : 0,
-							bottom : 64,
+						var listLinks = Titanium.UI.createTableView(Smart.combine(style.tableView,{
 							data : data,
-
-							search : searchbar,
-							filterAttribute : 'filter',
-							hideSearchOnSelection : false,
-
-							backgroundImage : 'img/bg.png',
-							style : Titanium.UI.iPhone.TableViewStyle.GROUPED
-						});
+							search : searchbar
+						}));
 						mainWindow.add(listLinks);
 
 						//Open detail van window
@@ -171,7 +123,33 @@
 								animated : false
 							});
 						});
-						btnDelete.addEventListener('click',function(e){
+						
+						//Delete row
+						listLinks.addEventListener('delete',function(e) {
+							Ti.API.info('DELETE FROM tblLink WHERE linkId='+links[e.index].linkId);
+							
+							var deleteReq = Titanium.Network.createHTTPClient();
+							deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							deleteReq.timeout = 5000;
+							deleteReq.onload = function() {
+								try {
+									var json = this.responseText;
+									var response = JSON.parse(json);
+									if(response.remove === true) {
+										Titanium.API.info('Remove link: ' + this.responseText);
+				
+									} else {
+										alert('Link kan niet verwijderd worden.');
+									}
+								} catch(e) {
+									alert(e);
+								}
+							};
+							
+							var params = {
+								linkId : links[e.index].linkId
+							};
+							deleteReq.send(params);
 							
 						});
 						
@@ -187,28 +165,18 @@
 			}
 
 			getReq.send();
-		}
-
+		};
 
 		//
 		//Logout
 		//
-		var logoutButton = Titanium.UI.createButton({
-			backgroundImage : 'img/btn_logout.png',
-			height : 37,
-			width : 280,
-			bottom : 10,
-			left : 'auto',
-			right : 'auto'
-		});
+		var logoutButton = Titanium.UI.createButton(style.logoutButton);
 		mainWindow.add(logoutButton);
 
 		logoutButton.addEventListener('click', function() {
 			mainWindow.close();
-			Ti.App.fireEvent('app:logout', {
-				action : 'Logout klik'
-			});
+			Smart.ui.createLoginWindow();
 		});
 		return mainWindow;
-	}
+	};
 })();

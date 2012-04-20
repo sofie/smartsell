@@ -3,9 +3,6 @@ var Smart = {
     navGroup: undefined
 };
 
-Titanium.include('styles/font_styles.js');
-var commonStyle = require('styles/common_styles').commonStyles();
-
 
 //windows & ui
 Ti.include(
@@ -13,5 +10,9 @@ Ti.include(
 	'windows/main.js',
 	
 	'windows/add_link.js',
-	'windows/detail_link.js'
+	'windows/detail_link.js',
+	
+	'styles/styles.js',
+	'config/config.js'
 );
+Smart.ui.createLoginWindow();
