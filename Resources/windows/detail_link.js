@@ -103,7 +103,6 @@
 							bgView.add(prijs);
 
 							detailWin.add(bgView);
-						//data.push(row);
 						};
 						
 					}

@@ -34,27 +34,24 @@
 			});
 		});
 		mainWindow.rightNavButton = addButton;
-		
+
 		var searchbar = Ti.UI.createSearchBar({
 			barColor : 'transparent',
 			showCancel : false
 		});
-		
-		searchbar.addEventListener('change',function(){
-			if(Titanium.App.datalist===0){
-				var lblNo = Titanium.UI.createLabel(Stuk.combine(style.textError,{
-					text : 'Geen linken gevonden voor "'+searchbar.value+'". Probeer een andere zoekterm.',
+
+		searchbar.addEventListener('change', function() {
+			if(Titanium.App.datalist === 0) {
+				var lblNo = Titanium.UI.createLabel(Stuk.combine(style.textError, {
+					text : 'Geen linken gevonden voor "' + searchbar.value + '". Probeer een andere zoekterm.',
 				}));
-			mainWindow.add(lblNo);
+				mainWindow.add(lblNo);
 			}
 		});
-						
 
 		//
 		//Bestaande koppeling
 		//
-		
-		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 43 - 45;
 
 		Titanium.App.addEventListener('app:reloadLinks', function(e) {
 			getLinks();
@@ -77,7 +74,7 @@
 					if(links.getLink === false) {
 						Titanium.API.info('Geen links');
 
-						var lblNoLinks = Titanium.UI.createLabel(Smart.combine(style.textError,{
+						var lblNoLinks = Titanium.UI.createLabel(Smart.combine(style.textError, {
 							top : 70,
 							text : 'Er zijn nog geen links. Maak 1 aan.'
 						}));
@@ -88,28 +85,25 @@
 						for(var i = 0; i < links.length; i++) {
 							var linkid = links[i].linkId;
 							var linknaam = links[i].linkNaam;
-							
+
 							var row = Ti.UI.createTableViewRow({
 								height : 37,
 								rightImage : 'img/arrow.png'
 							});
 							row.filter = links[i].linkNaam;
-							
 
-
-							var name = Ti.UI.createLabel(Smart.combine(style.textNormal,{
+							var name = Ti.UI.createLabel(Smart.combine(style.textNormal, {
 								text : linknaam,
 								left : 15,
-								height:20,
-								width:250
+								width : 250
 							}));
-							
+
 							row.add(name);
 							row.className = 'item' + i;
 							data[i] = row;
 						};
 
-						var listLinks = Titanium.UI.createTableView(Smart.combine(style.tableView,{
+						var listLinks = Titanium.UI.createTableView(Smart.combine(style.tableView, {
 							data : data,
 							search : searchbar
 						}));
@@ -123,11 +117,11 @@
 								animated : false
 							});
 						});
-						
+
 						//Delete row
-						listLinks.addEventListener('delete',function(e) {
-							Ti.API.info('DELETE FROM tblLink WHERE linkId='+links[e.index].linkId);
-							
+						listLinks.addEventListener('delete', function(e) {
+							Ti.API.info('DELETE FROM tblLink WHERE linkId=' + links[e.index].linkId);
+
 							var deleteReq = Titanium.Network.createHTTPClient();
 							deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
 							deleteReq.timeout = 5000;
@@ -137,7 +131,7 @@
 									var response = JSON.parse(json);
 									if(response.remove === true) {
 										Titanium.API.info('Remove link: ' + this.responseText);
-				
+
 									} else {
 										alert('Link kan niet verwijderd worden.');
 									}
@@ -145,14 +139,14 @@
 									alert(e);
 								}
 							};
-							
+
 							var params = {
 								linkId : links[e.index].linkId
 							};
 							deleteReq.send(params);
-							
+
 						});
-						
+
 					}
 
 				} catch(e) {

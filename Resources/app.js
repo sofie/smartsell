@@ -15,4 +15,4 @@ Ti.include(
 	'styles/styles.js',
 	'config/config.js'
 );
-//Smart.ui.createLoginWindow();
+Smart.ui.createLoginWindow();
