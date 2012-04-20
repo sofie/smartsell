@@ -106,6 +106,7 @@
 				fontFamily : 'Bree serif'
 			}
 		},
+		
 		textError : {
 			font : {
 				fontSize : 13,
@@ -159,8 +160,8 @@
 		},
 		backButton : {
 			backgroundImage : "img/btn_back.png",
-			width : 52,
-			height : 31
+			width : 49,
+			height : 28
 		},
 		makenButton : {
 			backgroundImage : 'img/btn_maken.png',

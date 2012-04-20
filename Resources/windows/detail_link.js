@@ -3,7 +3,7 @@
 	Smart.ui.createDetailWindow = function() {
 
 		var detailWin = Titanium.UI.createWindow(Smart.combine(style.Window,{
-			layout:'vertical'
+			//layout:'vertical'
 		}));
 		detailWin.addEventListener('open',function(){
 			getDetail();
@@ -23,6 +23,8 @@
 			});
 		});
 		detailWin.leftNavButton = backButton;
+		
+		var scrollView = Titanium.UI.createScrollView(style.scrollView);
 
 		function getDetail() {
 			var getReq = Titanium.Network.createHTTPClient();
@@ -48,6 +50,7 @@
 
 					} else {
 						for(var i = 0, j = detail.length; i < j; i++) {
+							Titanium.App.i = i;
 						
 							var pTitel = detail[i].pMerk + ' ' + detail[i].pTitel;
 							var pFoto = detail[i].pFoto;
@@ -102,9 +105,16 @@
 							bgView.add(beschrijving);
 							bgView.add(prijs);
 
-							detailWin.add(bgView);
+							//detailWin.add(bgView);
+							scrollView.add(bgView);
 						};
 						
+						var hoofdProductLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
+							text:'Hoofdproduct',
+							top:Titanium.App.i*180
+						}));
+						scrollView.add(hoofdProductLabel);
+		
 					}
 
 				} catch(e) {
@@ -118,7 +128,7 @@
 
 			getReq.send(params);
 		};
-		
+		detailWin.add(scrollView);
 
 		return detailWin;
 	};
