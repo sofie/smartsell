@@ -38,6 +38,15 @@
 			},
 			height : 30
 		},
+		scrollView: {
+			contentWidth : 288,
+			contentHeight : 'auto',
+			showVerticalScrollIndicator : true,
+			layout : 'vertical',
+			top : 0,
+			bottom : 10,
+			verticalBounce:true
+		},
 		bgProduct : {
 			left : 'auto',
 			right : 'auto',

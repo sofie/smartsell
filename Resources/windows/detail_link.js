@@ -111,7 +111,7 @@
 						
 						var hoofdProductLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
 							text:'Hoofdproduct',
-							top:Titanium.App.i*180
+							top:20
 						}));
 						scrollView.add(hoofdProductLabel);
 		
