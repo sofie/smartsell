@@ -114,6 +114,45 @@
 							top:20
 						}));
 						scrollView.add(hoofdProductLabel);
+						
+						var verwijderenButton = Titanium.UI.createButton(style.verwijderenButton);
+						scrollView.add(verwijderenButton);
+					
+						verwijderenButton.addEventListener('click', function() {
+							var deleteReq = Titanium.Network.createHTTPClient();
+							deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							deleteReq.timeout = 5000;
+							deleteReq.onload = function() {
+								try {
+									var json = this.responseText;
+									var response = JSON.parse(json);
+									if(response.remove === true) {
+										Titanium.API.info('Remove link: ' + this.responseText);
+
+									} else {
+										alert('Link kan niet verwijderd worden.');
+									}
+								} catch(e) {
+									alert(e);
+								}
+							};
+
+							var params = {
+								linkId : Titanium.App.selectedIndex
+							};
+							deleteReq.send(params);
+							Smart.navGroup.close(detailWin, {
+								animated : false
+							});
+						});
+						var klaarButton = Titanium.UI.createButton(style.klaarButton);
+						scrollView.add(klaarButton);
+					
+						klaarButton.addEventListener('click', function() {
+							Smart.navGroup.close(detailWin, {
+								animated : false
+							});
+						});
 		
 					}
 
@@ -128,6 +167,8 @@
 
 			getReq.send(params);
 		};
+		
+		
 		detailWin.add(scrollView);
 
 		return detailWin;

@@ -179,6 +179,20 @@
 			right : 20,
 			top : 15
 		},
+		verwijderenButton : {
+			backgroundImage : '/img/btn_verwijderen.png',
+			top : 20,
+			left : 20,
+			width : 128,
+			height : 37
+		},
+		klaarButton : {
+			backgroundImage : '/img/btn_klaar.png',
+			top : -37,
+			right : 20,
+			width : 128,
+			height : 37
+		},
 		
 		//
 		//VIEWBACKGROUNDS 
