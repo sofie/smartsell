@@ -55,7 +55,10 @@
 							var pTitel = detail[i].pMerk + ' ' + detail[i].pTitel;
 							var pFoto = detail[i].pFoto;
 							var pBeschrijving = detail[i].pBeschrijving;
-							var pPrijs = detail[i].pPrijs
+							var pPrijs = detail[i].pPrijs;
+							Ti.App.geldigVan = detail[i].pStart;
+							Ti.App.geldigTot = detail[i].pStop;
+						
 
 							var bgView = Titanium.UI.createView(style.bgProduct);
 
@@ -88,6 +91,7 @@
 							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete,{
 								text : 'X'
 							}));
+							bgView.add(delete_btn);
 							delete_btn.addEventListener('click',function(){
 								
 							});
@@ -100,7 +104,7 @@
 								text : '€ ' + pPrijs
 							}));
 							bgView.add(titel);
-							bgView.add(delete_btn);
+							
 							bgView.add(imageView);
 							bgView.add(beschrijving);
 							bgView.add(prijs);
@@ -114,6 +118,37 @@
 							top:20
 						}));
 						scrollView.add(hoofdProductLabel);
+						
+						var geldigVanLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
+							text:'Geldig van',
+							top:20
+						}));
+						scrollView.add(geldigVanLabel);
+						
+						
+						var geldigVanInput = Titanium.UI.createTextField(Smart.combine(style.inputField,{
+							top : 10,
+							value : Ti.App.geldigVan
+						}));
+						if(Ti.App.geldigVan===null){
+							geldigVanInput.hintText="Geef datum in"
+						}
+						scrollView.add(geldigVanInput);
+						
+						var geldigTotLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
+							text:'Geldig tot',
+							top:20
+						}));
+						scrollView.add(geldigTotLabel);
+						
+						var geldigTotInput = Titanium.UI.createTextField(Smart.combine(style.inputField,{
+							top : 10,
+							value : Ti.App.geldigTot
+						}));
+						if(Ti.App.geldigTot===null){
+							geldigTotInput.hintText="Geef datum in"
+						}
+						scrollView.add(geldigTotInput);
 						
 						var verwijderenButton = Titanium.UI.createButton(style.verwijderenButton);
 						scrollView.add(verwijderenButton);
@@ -149,6 +184,31 @@
 						scrollView.add(klaarButton);
 					
 						klaarButton.addEventListener('click', function() {
+							
+							var updateReq = Titanium.Network.createHTTPClient();
+							updateReq.open("GET", "http://localhost/smartsell/post_updatelink.php");
+							updateReq.timeout = 5000;
+							updateReq.onload = function() {
+								try {
+									var json = this.responseText;
+									var response = JSON.parse(json);
+									if(response.update === true) {
+										Titanium.API.info('Update link: ' + this.responseText);
+
+									} else {
+										alert('Link kan niet geüpdatet worden.');
+									}
+								} catch(e) {
+									alert(e);
+								}
+							};
+
+							var params = {
+								linkId : Titanium.App.selectedIndex,
+								linkStart :geldigVanInput.value ,
+								linkStop:geldigTotInput.value
+							};
+							updateReq.send(params);
 							Smart.navGroup.close(detailWin, {
 								animated : false
 							});

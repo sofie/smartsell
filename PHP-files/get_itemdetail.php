@@ -6,7 +6,7 @@ if (!$conn -> connect_error) {
 
 	$linkId = $_POST['linkId'];
 
-	$qry = "SELECT linkNaam, productMerk, productTitel, productBeschrijving, productPrijsStuk, productFoto, tblProduct.productId
+	$qry = "SELECT linkNaam, productMerk, productTitel, productBeschrijving, productPrijsStuk, productFoto, tblProduct.productId, linkStart, linkStop
 			FROM tblBevat
 			INNER JOIN tblProduct ON (tblProduct.productId = tblBevat.productId)
 			INNER JOIN tblLink ON (tblLink.linkId = tblBevat.linkId)
@@ -20,7 +20,17 @@ if (!$conn -> connect_error) {
 		mysqli_data_seek($result, 0);
 
 		while ($singleResult = mysqli_fetch_assoc($result)) {
-			$response = array("getItem" => true, "linkNaam" => $singleResult['linkNaam'], "pMerk" => $singleResult['productMerk'], "pId" => $singleResult['productId'], "pTitel" => $singleResult['productTitel'], "pFoto" => $singleResult['productFoto'], "pBeschrijving" => $singleResult['productBeschrijving'], "pPrijs" => $singleResult['productPrijsStuk']);
+			$response = array(
+				"getItem" => true, 
+				"linkNaam" => $singleResult['linkNaam'], 
+				"pMerk" => $singleResult['productMerk'], 
+				"pId" => $singleResult['productId'], 
+				"pTitel" => $singleResult['productTitel'], 
+				"pFoto" => $singleResult['productFoto'], 
+				"pBeschrijving" => $singleResult['productBeschrijving'], 
+				"pPrijs" => $singleResult['productPrijsStuk'],
+				"pStart" => $singleResult['linkStart'],
+				"pStop" => $singleResult['linkStop']);
 
 			$list[] = $response;
 		};

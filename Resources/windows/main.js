@@ -39,11 +39,14 @@
 			barColor : 'transparent',
 			showCancel : false
 		});
-
-		searchbar.addEventListener('change', function() {
+		
+		searchbar.addEventListener('return', function() {
 			if(Titanium.App.datalist === 0) {
-				var lblNo = Titanium.UI.createLabel(Stuk.combine(style.textError, {
+				Ti.API.info('Geen resultaten');
+				var lblNo = Titanium.UI.createLabel(Smart.combine(style.textError, {
 					text : 'Geen linken gevonden voor "' + searchbar.value + '". Probeer een andere zoekterm.',
+					left:20,
+					right:20
 				}));
 				mainWindow.add(lblNo);
 			}
