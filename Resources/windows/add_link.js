@@ -23,11 +23,12 @@
 		//
 		//Inhoud window
 		//
-		var linkNaam = Titanium.UI.createTextField(Smart.combine(style.inputField,{
+		/*var linkNaam = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
 			hintText : 'Naam koppeling',
 		}));
 		addKoppelingWin.add(linkNaam);
+		*/
 
 		var linkProduct1 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
@@ -46,7 +47,7 @@
 
 
 		btnCreateLijstje.addEventListener('click', function(e) {
-			if(linkNaam.value != '') {
+			if(linkProduct1.value != '') {
 				addLink();
 			} else {
 				alert('Gelieve een naam in te vullen.');
@@ -58,7 +59,7 @@
 			createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 
 			var params = {
-				linkNaam : linkNaam.value,
+				//linkNaam : linkNaam.value,
 				linkProduct1 : linkProduct1.value,
 				linkProduct2 : linkProduct2.value
 			};

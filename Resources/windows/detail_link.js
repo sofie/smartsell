@@ -113,6 +113,10 @@
 							scrollView.add(bgView);
 						};
 						
+						//
+						//Update link
+						//
+						
 						var hoofdProductLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
 							text:'Hoofdproduct',
 							top:20
@@ -124,7 +128,6 @@
 							top:20
 						}));
 						scrollView.add(geldigVanLabel);
-						
 						
 						var geldigVanInput = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 							top : 10,

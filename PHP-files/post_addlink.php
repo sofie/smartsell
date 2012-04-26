@@ -3,30 +3,34 @@
 $conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
 
 if (!$conn -> connect_error) {
-	$linkNaam = $_POST['linkNaam'];
 	$linkProduct1 = $_POST['linkProduct1'];
 	$linkProduct2 = $_POST['linkProduct2'];
 
-	$qry = "SELECT linkNaam FROM tblLink WHERE linkNaam = '" . mysqli_real_escape_string($conn, $linkNaam) . "'";
-
-	$query = $conn -> query($qry);
-	if ($num_rows = $query -> num_rows > 0) {
-		$response = array('add' => false);
-		echo json_encode($response);
-	} else {
+		$qryNaam1 = "SELECT productMerk
+					 FROM tblProduct
+					 WHERE productId = '" . $linkProduct1 . "'";
+		$queryNaam1 = $conn -> query($qryNaam1);
+		$singleResultNaam1 = mysqli_fetch_assoc($queryNaam1);
+		$qryNaam2 = "SELECT productMerk
+					 FROM tblProduct
+					 WHERE productId = '" . $linkProduct2 . "'";
+		$queryNaam2 = $conn -> query($qryNaam2);
+		$singleResultNaam2 = mysqli_fetch_assoc($queryNaam2);
+			
 		$insertNaam = "INSERT INTO tblLink (linkNaam) 
-					   VALUES ('" . mysqli_real_escape_string($conn, $linkNaam) . "')";
+					   VALUES ('" . $singleResultNaam1['productMerk'] . "' '" . $singleResultNaam2['productMerk'] . "')";
+					   
 
 		$queryInsert = $conn -> query($insertNaam);
 		if ($queryInsert) {
 			
 			$qryId = "SELECT linkId
 						FROM tblLink
-						WHERE linkNaam = '" . $linkNaam . "'";
+						WHERE linkNaam = '" . $singleResultNaam1['productMerk'] . "' '" . $singleResultNaam2['productMerk'] . "'";
 			$result = $conn -> query($qryId);
 			$singleResult = mysqli_fetch_assoc($result);	
 			
-			
+		
 			$insertProd1 = "INSERT INTO tblBevat (linkId, productId) VALUES ('" . $singleResult['linkId'] . "','" . $linkProduct1 . "')";
 			$insertProd2 = "INSERT INTO tblBevat (linkId, productId) VALUES ('" . $singleResult['linkId'] . "','" . $linkProduct2 . "')";
 
@@ -47,7 +51,7 @@ if (!$conn -> connect_error) {
 			$response = array('add' => false);
 			echo json_encode($response);
 		}
-	}
+
 } else {
 	throw new Exception('Oeps, geen connectie.');
 
