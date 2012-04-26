@@ -11,6 +11,7 @@ Ti.include(
 	
 	'windows/add_link.js',
 	'windows/detail_link.js',
+	'windows/add_product.js',
 	
 	'styles/styles.js',
 	'config/config.js'

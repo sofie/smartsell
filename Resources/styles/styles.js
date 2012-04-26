@@ -39,7 +39,7 @@
 			height : 30
 		},
 		scrollView: {
-			contentWidth : 288,
+			contentWidth : 'auto',
 			contentHeight : 'auto',
 			showVerticalScrollIndicator : true,
 			layout : 'vertical',
@@ -78,7 +78,9 @@
 			top : 13,
 			right : 15,
 			height : 20,
-			width : 'auto'
+			width : 30,
+			textAlign : 'right'
+			
 		},
 		textProductTitle : {
 			left : 20,
@@ -123,9 +125,8 @@
 			},
 			color : '#AC3724',
 			left : 30,
-			right : 30,
-			width : 300,
-			height : 'auto'
+			right : 50,
+			height : 20
 		},
 
 		inputField : {
@@ -164,8 +165,8 @@
 		},
 		addButton : {
 			backgroundImage : "img/btn_add.png",
-			width : 33,
-			height : 31
+			width : 28,
+			height : 28
 		},
 		backButton : {
 			backgroundImage : "img/btn_back.png",

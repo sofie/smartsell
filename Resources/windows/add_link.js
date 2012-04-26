@@ -20,16 +20,6 @@
 		});
 		addKoppelingWin.leftNavButton = backButton;
 
-		//
-		//Inhoud window
-		//
-		/*var linkNaam = Titanium.UI.createTextField(Smart.combine(style.inputField,{
-			top : 10,
-			hintText : 'Naam koppeling',
-		}));
-		addKoppelingWin.add(linkNaam);
-		*/
-
 		var linkProduct1 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
 			hintText : 'Product 1'
@@ -59,7 +49,6 @@
 			createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
 
 			var params = {
-				//linkNaam : linkNaam.value,
 				linkProduct1 : linkProduct1.value,
 				linkProduct2 : linkProduct2.value
 			};

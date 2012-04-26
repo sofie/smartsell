@@ -2,6 +2,7 @@
 	var navWindow;
 
 	Smart.ui.createApplicationMainWin = function() {
+		
 		var mainWindow = Titanium.UI.createWindow(style.Window);
 		mainWindow.addEventListener('open', function() {
 			getLinks();

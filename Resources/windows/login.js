@@ -82,15 +82,27 @@
 						});
 
 					} else {
-						alert('Onjuiste login.');
+						var alertDialog = Ti.UI.createAlertDialog({
+							title : 'Login',
+							message : 'Onjuiste login. Personeelsnummer staat op achterkant van personeelskaart.',
+							buttonNames : ['OK']
+						});
+						alertDialog.show();
 					}
 				} catch(e) {
 					alert(e);
 				}
 			};
 			loginReq.onerror = function(e) {
-				Ti.API.info("TEXT onerror:   " + this.responseText);
-				alert('Er is iets mis met de databank.');
+				var alertDialog = Ti.UI.createAlertDialog({
+						title : 'Login',
+						message : 'Kan niet inloggen. Controleer uw internetverbinding.',
+						buttonNames : ['OK']
+				});
+				alertDialog.show();
+				//personeelNummer.blur();
+				
+				//alert('Er is iets mis met de databank.');
 			}
 
 			loginReq.send(params);
