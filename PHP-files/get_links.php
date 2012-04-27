@@ -1,12 +1,12 @@
 <?php
 
-$conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
+$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
 
 if (!$conn -> connect_error) {
 	
 	
 	$qry = "SELECT linkNaam, linkId
-			FROM tblLink";
+			FROM links";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);

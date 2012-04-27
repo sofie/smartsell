@@ -6,7 +6,7 @@
 		var mainWindow = Titanium.UI.createWindow(style.Window);
 		mainWindow.addEventListener('open', function() {
 			getLinks();
-			Ti.API.info('Main win open');
+			Ti.API.info('Main win open, personeelnummer: '+Titanium.App.personeelNummer);
 		});
 		navWindow = Ti.UI.createWindow();
 
@@ -90,10 +90,7 @@
 							var linkid = links[i].linkId;
 							var linknaam = links[i].linkNaam;
 
-							var row = Ti.UI.createTableViewRow({
-								height : 37,
-								rightImage : 'img/arrow.png'
-							});
+							var row = Ti.UI.createTableViewRow(style.row);
 							row.filter = links[i].linkNaam;
 
 							var name = Ti.UI.createLabel(Smart.combine(style.textNormal, {

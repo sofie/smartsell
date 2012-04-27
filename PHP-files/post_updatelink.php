@@ -1,6 +1,6 @@
 <?php
 
-$conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
+$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
 
 if (!$conn -> connect_error) {
 	$linkId = $_POST['linkId'];
@@ -8,11 +8,11 @@ if (!$conn -> connect_error) {
 	$linkStop = $_POST['linkStop'];
 	
 
-	$qry = "SELECT * FROM tblLink WHERE linkId = '" . mysqli_real_escape_string($conn, $linkId) . "'";
+	$qry = "SELECT * FROM links WHERE linkId = '" . mysqli_real_escape_string($conn, $linkId) . "'";
 
 	$query = $conn -> query($qry);
 	if ($num_rows = $query -> num_rows > 0) {
-		$updateQry = "UPDATE tblLink SET linkStart='" . mysqli_real_escape_string($conn,$linkStart) . "', linkStop='" .  mysqli_real_escape_string($conn,$linkStop) . "' WHERE linkId='" .  mysqli_real_escape_string($conn,$linkId). "'";
+		$updateQry = "UPDATE links SET linkStart='" . mysqli_real_escape_string($conn,$linkStart) . "', linkStop='" .  mysqli_real_escape_string($conn,$linkStop) . "' WHERE linkId='" .  mysqli_real_escape_string($conn,$linkId). "'";
 		
 		$query1 = $conn -> query($updateQry);
 

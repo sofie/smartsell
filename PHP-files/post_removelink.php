@@ -1,16 +1,16 @@
 <?php
 
-$conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
+$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
 
 if (!$conn -> connect_error) {
 	$linkId = $_POST['linkId'];
 
-	$qry = "SELECT linkId FROM tblLink WHERE linkId = '" . mysqli_real_escape_string($conn, $linkId) . "'";
+	$qry = "SELECT linkId FROM links WHERE linkId = '" . mysqli_real_escape_string($conn, $linkId) . "'";
 
 	$query = $conn -> query($qry);
 	if ($num_rows = $query -> num_rows > 0) {
-		$remove = "DELETE FROM tblLink WHERE linkId='" . $linkId . "'";
-		$remove1 = "DELETE FROM tblBevat WHERE linkId='" . $linkId . "'";
+		$remove = "DELETE FROM links WHERE linkId='" . $linkId . "'";
+		$remove1 = "DELETE FROM link_details WHERE linkId='" . $linkId . "'";
 		
 		$queryRemove = $conn -> query($remove);
 		$query1 = $conn -> query($remove1);

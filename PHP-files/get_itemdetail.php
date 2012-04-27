@@ -1,16 +1,16 @@
 <?php
 
-$conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
+$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
 
 if (!$conn -> connect_error) {
 
 	$linkId = $_POST['linkId'];
 
-	$qry = "SELECT linkNaam, productMerk, productTitel, productBeschrijving, productPrijsStuk, productFoto, tblProduct.productId, linkStart, linkStop
-			FROM tblBevat
-			INNER JOIN tblProduct ON (tblProduct.productId = tblBevat.productId)
-			INNER JOIN tblLink ON (tblLink.linkId = tblBevat.linkId)
-			WHERE tblBevat.linkId ='" .$linkId. "'";
+	$qry = "SELECT linkNaam,name, title, description, prijsStuk, foto, products.id, linkStart, linkStop
+			FROM link_details
+			INNER JOIN products ON (products.id = link_details.productId)
+			INNER JOIN links ON (links.linkId = link_details.linkId)
+			WHERE link_details.linkId ='" .$linkId. "'";
 
 	$result = $conn -> query($qry);
 	$singleResult = mysqli_fetch_assoc($result);
@@ -23,12 +23,12 @@ if (!$conn -> connect_error) {
 			$response = array(
 				"getItem" => true, 
 				"linkNaam" => $singleResult['linkNaam'], 
-				"pMerk" => $singleResult['productMerk'], 
-				"pId" => $singleResult['productId'], 
-				"pTitel" => $singleResult['productTitel'], 
-				"pFoto" => $singleResult['productFoto'], 
-				"pBeschrijving" => $singleResult['productBeschrijving'], 
-				"pPrijs" => $singleResult['productPrijsStuk'],
+				"pMerk" => $singleResult['name'], 
+				"pId" => $singleResult['id'], 
+				"pTitel" => $singleResult['title'], 
+				"pFoto" => $singleResult['foto'], 
+				"pBeschrijving" => $singleResult['description'], 
+				"pPrijs" => $singleResult['prijsStuk'],
 				"pStart" => $singleResult['linkStart'],
 				"pStop" => $singleResult['linkStop']);
 

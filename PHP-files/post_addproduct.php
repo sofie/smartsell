@@ -1,6 +1,6 @@
 <?php
 
-$conn = @new mysqli('localhost', 'root', 'root', 'SmartSell');
+$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
 
 if (!$conn -> connect_error) {
 	$productId = $_POST['productId'];
@@ -16,7 +16,7 @@ if (!$conn -> connect_error) {
 			$response = array('add' => false);
 			echo json_encode($response);
 		} else {*/
-			$insertQry = "INSERT INTO tblBevat (linkId,productId) VALUES ('" . $linkId . "','" . $productId . "')";
+			$insertQry = "INSERT INTO link_details (linkId,productId) VALUES ('" . $linkId . "','" . $productId . "')";
 			$queryInsert = $conn -> query($insertQry);
 			if($queryInsert){
 				$response = array('add' => true,'QryAddProduct'=>$queryInsert);

@@ -29,7 +29,13 @@
 			backgroundImage : 'img/bg.png',
 			style : Titanium.UI.iPhone.TableViewStyle.GROUPED
 		},
-
+		row : {
+			height : 40,
+			backgroundImage : 'img/bg_textInput.png',
+			width : 280,
+			selectedBackgroundColor : '#e3602b',
+			backgroundSelectedColor : '#e3602b',
+		},
 		titleBar : {
 			color : '#fff',
 			font : {
@@ -130,19 +136,23 @@
 		},
 
 		inputField : {
+			paddingLeft:10,
 			color : '#3A3737',
 			left : 20,
 			height : 40,
-			width : Ti.Platform.displayCaps.platformWidth - 40,
+			width : 280,
+			right : 20,
 			font : {
 				fontSize : 13,
 				fontFamily : 'Bree Serif'
 			},
 			opacity : 0.9,
-			keyboardType : Titanium.UI.KEYBOARD_NUMBERS_PUNCTUATION,
+			autocapitalization : false,
+			keyboardType : Titanium.UI.KEYBOARD_DEFAULT,
 			returnKeyType : Titanium.UI.RETURNKEY_DEFAULT,
-			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS
+			borderStyle : Titanium.UI.INPUT_BORDERSTYLE_NONE,
+			clearButtonMode : Titanium.UI.INPUT_BUTTONMODE_ALWAYS,
+			backgroundImage : '/img/bg_textInput.png'
 		},
 
 		//

@@ -1,24 +1,24 @@
 <?php
 
-// Select your MySQL host, username and password
-$con =@ new mysqli('localhost','root','root','SmartSell');  
+$con =@ new mysqli('localhost','root','root','smartscan'); 
+ 
 if ($con->connect_error)  
 {  
 	echo "Oeps, geen connectie.";  
 	exit;  
 } 
 
-$personeelNummer = $_POST['personeelNummer'];
+$nummer = $_POST['personeelNummer'];
 
 
-$sql = "SELECT * FROM tblPersoneel WHERE personeelNummer = '" . mysqli_real_escape_string($con,$personeelNummer) ."'";
+$sql = "SELECT * FROM personeel WHERE nummer = '" . mysqli_real_escape_string($con,$nummer) ."'";
 $query = $con->query($sql);
 if ($num_rows = $query->num_rows > 0)
 {
 	$row = mysqli_fetch_array($query);
 	$response = array(
 		'logged' => true,
-		'personeelNummer' => $row['personeelNummer']
+		'personeelNummer' => $row['nummer']
 	);
 	echo json_encode($response);
 }
