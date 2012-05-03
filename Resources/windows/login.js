@@ -116,11 +116,11 @@
 					login();
 					Ti.API.info('TiBar success callback!');
 					if(data && data.barcode) {
-						Ti.API.info(data.barcode);
-						Ti.UI.createAlertDialog({
+						Ti.API.info("Barcode: "+data.barcode+", symbol: "+data.symbology);
+						/*Ti.UI.createAlertDialog({
 							title : "Scan result",
-							message : "Barcode: " + data.barcode + " Symbology:" + data.symbology
-						}).show();
+							message : "Inloggen gelukt."
+						}).show();*/
 					}
 				},
 				cancel : function() {

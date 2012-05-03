@@ -11,7 +11,7 @@
 }
 h2{
 	padding-top:15px;
-	padding-left:60px;
+	padding-left:35px;
 	height:44px;
 	color : #fff;
 	font-family: myFont;
@@ -30,4 +30,7 @@ div#content{
 	font-family:myFont2;
 	font-size: 14px;
 	color: #3A3737;
+}
+div#content div{
+	padding-bottom:10px;
 }
