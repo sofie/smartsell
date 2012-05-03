@@ -24,34 +24,115 @@
 		//
 		//Inloggen via personeelsnummer
 		//
-		var labelPersoneelsnummer = Titanium.UI.createLabel(Smart.combine(style.textNormal,{
+		var labelPersoneelsnummer = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
 			text : 'Inloggen via scannen lukt niet? Log hier in.',
 			top : -380
 		}));
 		loginWin.add(labelPersoneelsnummer);
 
 		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 40;
-		var personeelNummer = Titanium.UI.createTextField(Smart.combine(style.inputField,{
+		var personeelNummer = Titanium.UI.createTextField(Smart.combine(style.inputField, {
 			top : 40,
 			hintText : 'Personeelsnummer'
 		}));
 		loginWin.add(personeelNummer);
-		
+
 		var loginBtn = Titanium.UI.createButton(style.loginButton);
 		loginWin.add(loginBtn);
 
 		//
 		//Inloggen via scannen
 		//
-		var labelPersoneelskaart = Titanium.UI.createLabel(Smart.combine(style.textNormal,{
+		var labelPersoneelskaart = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
 			text : 'Scan de barcode van uw personeelskaart om in te loggen.',
 			top : -75
 		}));
 		loginWin.add(labelPersoneelskaart);
 
 		var afbPersoneelskaart = Titanium.UI.createImageView(style.personeelsKaartImg);
-		loginWin.add(afbPersoneelskaart);
+		
+		var TiBar = require('tibar');
+		Ti.API.info("module is => " + TiBar);
 
+		var allConfigWithDefaults = {
+			classType : [{
+				"ZBarReaderController" : true
+			}],
+			sourceType : [{
+				"Library" : false
+			}, {
+				"Camera" : false
+			}, {
+				"Album" : true
+			}],
+			cameraMode : [{
+				"Default" : true
+			}],
+			config : {
+				"showsCameraControls" : true,
+				"showsZBarControls" : true,
+				"tracksSymbols" : true,
+				"enableCache" : true,
+				"showsHelpOnFail" : true,
+				"takesPicture" : false
+			},
+			symbol : {
+				"QR-Code" : false,
+				"CODE-128" : false,
+				"CODE-39" : false,
+				"I25" : false,
+				"DataBar" : false,
+				"DataBar-Exp" : false,
+				"EAN-13" : true,
+				"EAN-8" : true,
+				"UPC-A" : false,
+				"UPC-E" : false,
+				"ISBN-13" : false,
+				"ISBN-10" : false
+			}
+		};
+		afbPersoneelskaart.addEventListener('click', function() {
+			var config = {};
+			for(var section in allConfigWithDefaults) {
+				if( typeof allConfigWithDefaults[section] === 'object' && allConfigWithDefaults[section] instanceof Array) {
+					for(var itemix in allConfigWithDefaults[section]) {
+						for(var labelname in allConfigWithDefaults[section][itemix]) {
+
+							if(allConfigWithDefaults[section][itemix][labelname]) {
+								config[section] = labelname;
+							}
+						}
+					}
+				} else {
+					config[section] = allConfigWithDefaults[section];
+				}
+			}
+
+			Ti.API.debug(JSON.stringify(config));
+			TiBar.scan({
+				configure : config,
+				success : function(data) {
+					personeelNummer.value=data.barcode;
+					login();
+					Ti.API.info('TiBar success callback!');
+					if(data && data.barcode) {
+						Ti.API.info(data.barcode);
+						Ti.UI.createAlertDialog({
+							title : "Scan result",
+							message : "Barcode: " + data.barcode + " Symbology:" + data.symbology
+						}).show();
+					}
+				},
+				cancel : function() {
+					Ti.API.info('TiBar cancel callback!');
+				},
+				error : function() {
+					Ti.API.info('TiBar error callback!');
+				}
+			});
+
+		});
+		loginWin.add(afbPersoneelskaart);
 
 		//
 		//Login Service
@@ -95,13 +176,13 @@
 			};
 			loginReq.onerror = function(e) {
 				var alertDialog = Ti.UI.createAlertDialog({
-						title : 'Login',
-						message : 'Kan niet inloggen. Controleer uw internetverbinding.',
-						buttonNames : ['OK']
+					title : 'Login',
+					message : 'Kan niet inloggen. Controleer uw internetverbinding.',
+					buttonNames : ['OK']
 				});
 				alertDialog.show();
 				//personeelNummer.blur();
-				
+
 				//alert('Er is iets mis met de databank.');
 			}
 
@@ -117,4 +198,4 @@
 			}
 		});
 	}
-})(); 
+})();

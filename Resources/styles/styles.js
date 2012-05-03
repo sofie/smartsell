@@ -31,10 +31,10 @@
 		},
 		row : {
 			height : 40,
-			backgroundImage : 'img/bg_textInput.png',
+			backgroundImage : 'img/bg_row.png',
 			width : 280,
 			selectedBackgroundColor : '#e3602b',
-			backgroundSelectedColor : '#e3602b',
+			backgroundSelectedColor : '#e3602b'
 		},
 		titleBar : {
 			color : '#fff',
