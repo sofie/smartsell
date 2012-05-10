@@ -66,7 +66,7 @@
 		//LABELS
 		//
 		textNormal : {
-			color : '#3A3737',
+			color : '#4C4C4C',
 			left : 20,
 			font : {
 				fontSize : 13,
@@ -89,9 +89,9 @@
 			
 		},
 		textProductTitle : {
-			left : 20,
+			left :20,
 			top : 10,
-			width : 230,
+			width : 205,
 			height : 25,
 			textAlign : 'left',
 			color : '#474240',
@@ -197,6 +197,13 @@
 			width : 128,
 			height : 37
 		},
+		starButton : {
+			backgroundImage : '/img/star_unselected.png',
+			top : 10,
+			left : 13,
+			width : 25,
+			height : 25
+		},
 		klaarButton : {
 			backgroundImage : '/img/btn_klaar.png',
 			top : -37,
@@ -209,12 +216,12 @@
 		//VIEWBACKGROUNDS 
 		//
 		personeelsKaartImg:{
-			image : "/img/personeelskaart.png",
+			image : "/img/kaart.jpg",
 			left : 'auto',
 			right : 'auto',
 			top : 200,
-			width : 247,
-			height : 181
+			width : 269,
+			height : 194
 		}
 
 	};

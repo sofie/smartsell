@@ -20,12 +20,15 @@
 		navWindow.open({
 			animated : false
 		});
+		loginWin.addEventListener('open',function(){
+			Ti.API.info('Login win open');
+		})
 
 		//
 		//Inloggen via personeelsnummer
 		//
 		var labelPersoneelsnummer = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
-			text : 'Inloggen via scannen lukt niet? Log hier in.',
+			text : 'Geef je personeelsnummer in om in te loggen.',
 			top : -380
 		}));
 		loginWin.add(labelPersoneelsnummer);
@@ -44,7 +47,7 @@
 		//Inloggen via scannen
 		//
 		var labelPersoneelskaart = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
-			text : 'Scan de barcode van uw personeelskaart om in te loggen.',
+			text : 'Of scan de barcode van uw personeelskaart om in te loggen.',
 			top : -75
 		}));
 		loginWin.add(labelPersoneelskaart);
@@ -158,9 +161,6 @@
 							animated : false
 						});
 						mainWin = Smart.ui.createApplicationMainWin();
-						mainWin.open({
-							animated : false
-						});
 
 					} else {
 						var alertDialog = Ti.UI.createAlertDialog({

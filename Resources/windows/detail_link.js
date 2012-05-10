@@ -2,9 +2,7 @@
 
 	Smart.ui.createDetailWindow = function() {
 
-		var detailWin = Titanium.UI.createWindow(Smart.combine(style.Window,{
-			//layout:'vertical'
-		}));
+		var detailWin = Titanium.UI.createWindow(style.Window);
 		detailWin.addEventListener('open',function(){
 			Ti.API.info('Detail win open');
 		
@@ -15,7 +13,6 @@
 		});
 		detailWin.addEventListener('close',function(){
 			Ti.API.info('Detail win close');
-		
 		});
 
 		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar,{
@@ -81,7 +78,9 @@
 						
 							Ti.App.pTitle = detail[i].pMerk + ' ' + detail[i].pTitel;
 							var pFoto = detail[i].pFoto;
+							var id = detail[i].id;
 							Ti.App.pId = detail[i].pId;
+							Ti.API.info('pId: '+id+ ',pId: '+Ti.App.pId);
 							var pBeschrijving = detail[i].pBeschrijving;
 							var pPrijs = detail[i].pPrijs;
 							Ti.App.geldigVan = detail[i].pStart;
@@ -94,7 +93,8 @@
 								width : 100,
 								height : 100,
 								borderColor : '#B6AFA9',
-								backgroundColor : '#fff'
+								backgroundColor : '#fff',
+								borderWidth:0.5
 							});
 
 							var baseImg = Titanium.UI.createImageView({
@@ -113,13 +113,16 @@
 							});
 
 							var titel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
-								text : Ti.App.pTitle
+								text : Ti.App.pTitle,
+								left:45
 							}));
+							var star_btn = Titanium.UI.createButton(style.starButton);
+							
 							
 							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete,{
 								text : 'X'
 							}));
-							bgView.add(delete_btn);
+							
 							delete_btn.addEventListener('click',function(){
 								var alertDialog = Ti.UI.createAlertDialog({
 									title : 'Product verwijderen',
@@ -170,29 +173,22 @@
 							var prijs = Titanium.UI.createLabel(Smart.combine(style.textProductPrice,{
 								text : '€ ' + pPrijs
 							}));
+							bgView.add(delete_btn);
+							bgView.add(star_btn);
 							bgView.add(titel);
 							
 							bgView.add(imageView);
 							bgView.add(beschrijving);
 							bgView.add(prijs);
 
-							//detailWin.add(bgView);
 							scrollView.add(bgView);
 						};
-						
+						star_btn.addEventListener('click',function(e){
+								Ti.API.info('Product Id: '+detail[e.index].pId);
+							});
 						//
 						//Update link
-						//
-						
-						var hoofdProductLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
-							text:'Hoofdproduct',
-							top:20
-						}));
-						scrollView.add(hoofdProductLabel);
-						hoofdProductLabel.addEventListener('click',function(){
-						
-						});
-						
+						//						
 						
 						var geldigVanLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
 							text:'Geldig van',
@@ -254,6 +250,7 @@
 							Smart.navGroup.close(detailWin, {
 								animated : false
 							});
+							Smart.ui.createApplicationMainWin();
 						});
 						var klaarButton = Titanium.UI.createButton(style.klaarButton);
 						scrollView.add(klaarButton);

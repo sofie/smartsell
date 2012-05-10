@@ -7,7 +7,6 @@ var Smart = {
 //windows & ui
 Ti.include(
 	'windows/login.js',
-	'windows/login_scan.js',
 	'windows/main.js',
 	
 	'windows/add_link.js',

@@ -6,7 +6,7 @@ if (!$conn -> connect_error) {
 
 	$linkId = $_POST['linkId'];
 
-	$qry = "SELECT linkNaam,name, title, description, prijsStuk, foto, products.id, linkStart, linkStop
+	$qry = "SELECT linkNaam,name, title, description, prijsStuk, foto, products.id, linkStart, linkStop, link_details.productId
 			FROM link_details
 			INNER JOIN products ON (products.id = link_details.productId)
 			INNER JOIN links ON (links.linkId = link_details.linkId)
@@ -22,6 +22,7 @@ if (!$conn -> connect_error) {
 		while ($singleResult = mysqli_fetch_assoc($result)) {
 			$response = array(
 				"getItem" => true, 
+				"id" => $singleResult['productId'], 
 				"linkNaam" => $singleResult['linkNaam'], 
 				"pMerk" => $singleResult['name'], 
 				"pId" => $singleResult['id'], 

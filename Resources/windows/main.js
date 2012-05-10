@@ -1,5 +1,4 @@
 (function() {
-	var navWindow;
 
 	Smart.ui.createApplicationMainWin = function() {
 		
@@ -172,6 +171,6 @@
 			mainWindow.close();
 			Smart.ui.createLoginWindow();
 		});
-		return mainWindow;
+		//return mainWindow;
 	};
 })();
