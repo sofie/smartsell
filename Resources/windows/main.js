@@ -64,7 +64,12 @@
 			var data = [];
 
 			var getReq = Titanium.Network.createHTTPClient();
-			getReq.open("GET", "http://localhost/smartsell/get_links.php");
+			if(Ti.App.localonline==="local"){
+				getReq.open("GET", "http://localhost/smartsell/get_links.php");
+			}else{
+				getReq.open("GET", "http://sofiehendrickx.eu/smartsell/get_links.php");
+			}	
+			
 			getReq.timeout = 5000;
 
 			getReq.onload = function() {
@@ -123,7 +128,12 @@
 							Ti.API.info('DELETE FROM tblLink WHERE linkId=' + links[e.index].linkId);
 
 							var deleteReq = Titanium.Network.createHTTPClient();
-							deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							if(Ti.App.localonline==="local"){
+								deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							}else{
+								deleteReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_removelink.php");
+							}
+							
 							deleteReq.timeout = 5000;
 							deleteReq.onload = function() {
 								try {

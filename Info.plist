@@ -56,6 +56,7 @@
 	<string>UIStatusBarStyleDefault</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>/fonts/Ubuntu-R.ttf</string>
 		<string>/fonts/BreeSerif-Regular.otf</string>
 		<string>/fonts/merge.otf</string>
 	</array>

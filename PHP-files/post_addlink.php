@@ -1,6 +1,6 @@
 <?php
-
-$conn = @new mysqli('localhost', 'root', 'root', 'smartscan');
+require_once('connection.php');
+$conn = @ new mysqli($dbserver,$dbuser,$dbpass,$dbase);
 
 if (!$conn -> connect_error) {
 	$linkProduct1 = $_POST['linkProduct1'];

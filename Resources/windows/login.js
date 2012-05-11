@@ -144,7 +144,12 @@
 		//request
 		function login() {
 			var loginReq = Titanium.Network.createHTTPClient();
-			loginReq.open("POST", "http://localhost/smartsell/auth.php");
+			Ti.API.info('Local or online? '+Ti.App.localonline);
+			if(Ti.App.localonline==="local"){
+				loginReq.open("POST", "http://localhost/smartsell/auth.php");
+			}else{
+				loginReq.open("POST", "http://sofiehendrickx.eu/smartsell/auth.php");
+			}	
 			loginReq.timeout = 5000;
 
 			var params = {

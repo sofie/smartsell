@@ -1,10 +1,15 @@
 <?php
 
-//$con =@ new mysqli('http://www.bgdesign.be:3351','smartscan','smartscan','smartscan'); 
-$con =@ new mysqli('localhost','root','root','smartscan'); 
+require_once('connection.php');
+$con = @ new mysqli($dbserver,$dbuser,$dbpass,$dbase);
+
+//$con =@ new mysqli('localhost:3351','sofie','sofie','smartscan'); 
+//$con =@ new mysqli('localhost','root','root','smartscan'); 
+
  
 if ($con->connect_error)  
-{  
+{
+	echo mysqli_connect_error();
 	echo "Oeps, geen connectie.";  
 	exit;  
 } 

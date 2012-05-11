@@ -46,7 +46,12 @@
 		
 		function addLink() {
 			var createReq = Titanium.Network.createHTTPClient();
-			createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
+			if(Ti.App.localonline==="local"){
+				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
+			}else{
+				createReq.open("POST", "http://sofiehendrickx.eu/smartsell/post_addlink.php");
+			}
+			
 
 			var params = {
 				linkProduct1 : linkProduct1.value,
