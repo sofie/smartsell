@@ -11,8 +11,8 @@
 		Window : {
 			width : '100%',
 			height : '100%',
-			backgroundImage : '/img/bg.png',
-			barImage : 'img/header.png'
+			backgroundImage : '/img/black/bg_veggies.jpg',
+			barImage : 'img/black/header_veggies.jpg'
 		},
 		tableView : {
 			top : 0,
@@ -26,7 +26,7 @@
 			filterAttribute : 'filter',
 			hideSearchOnSelection : false,
 
-			backgroundImage : 'img/bg.png',
+			backgroundImage : 'img/black/bg_tableview.jpg',
 			style : Titanium.UI.iPhone.TableViewStyle.GROUPED
 		},
 		row : {
@@ -39,7 +39,7 @@
 		titleBar : {
 			color : '#fff',
 			font : {
-				fontFamily : 'Bree serif',
+				fontFamily : 'Ubuntu',
 				fontSize : 22
 			},
 			height : 30
@@ -66,11 +66,11 @@
 		//LABELS
 		//
 		textNormal : {
-			color : '#4C4C4C',
+			color : '#000',
 			left : 20,
 			font : {
-				fontSize : 13,
-				fontFamily : 'Bree serif'
+				fontSize : 12,
+				fontFamily : 'Ubuntu'
 			},
 			textAlign : 'left',
 			width : '280'
@@ -78,7 +78,7 @@
 		textDelete : {
 			font : {
 				fontSize : 13,
-				fontFamily : 'Bree serif'
+				fontFamily : 'Ubuntu'
 			},
 			color : '#AC3724',
 			top : 13,
@@ -94,10 +94,10 @@
 			width : 205,
 			height : 25,
 			textAlign : 'left',
-			color : '#474240',
+			color : '#000',
 			font : {
-				fontSize : 16,
-				fontFamily : 'Bree serif'
+				fontSize : 14,
+				fontFamily : 'Ubuntu'
 			}
 		},
 		textProductDescription : {
@@ -106,10 +106,10 @@
 			top : 46,
 			height : 70,
 			textAlign : 'left',
-			color : '#474240',
+			color : '#000',
 			font : {
-				fontSize : 13,
-				fontFamily : 'Merge'
+				fontSize : 12,
+				fontFamily : 'Ubuntu'
 			}
 		},
 		textProductPrice : {
@@ -117,17 +117,17 @@
 			top : 120,
 			height : 30,
 			textAlign : 'right',
-			color : '#474240',
+			color : '#000',
 			font : {
-				fontSize : 16,
-				fontFamily : 'Bree serif'
+				fontSize : 14,
+				fontFamily : 'Ubuntu'
 			}
 		},
 		
 		textError : {
 			font : {
 				fontSize : 13,
-				fontFamily : 'Bree serif'
+				fontFamily : 'Ubuntu'
 			},
 			color : '#AC3724',
 			left : 30,
@@ -137,14 +137,14 @@
 
 		inputField : {
 			paddingLeft:10,
-			color : '#3A3737',
+			color : '#000',
 			left : 20,
 			height : 40,
 			width : 280,
 			right : 20,
 			font : {
-				fontSize : 13,
-				fontFamily : 'Bree serif'
+				fontSize : 12,
+				fontFamily : 'Ubuntu'
 			},
 			opacity : 0.9,
 			autocapitalization : false,
@@ -159,51 +159,50 @@
 		//BUTTONS
 		//
 		loginButton : {
-			backgroundImage : '/img/btn_login.png',
+			backgroundImage : '/img/black/btn_login_black.png',
 			top : 90,
 			right : 20,
-			width : 90,
-			height : 37
+			width : 93,
+			height : 35
 		},
 		logoutButton : {
-			backgroundImage : 'img/btn_logout.png',
-			height : 37,
-			width : 280,
+			backgroundImage : 'img/black/btn_logout_black.png',
+			height : 35,
+			width : 290,
 			bottom : 10,
 			left : 'auto',
 			right : 'auto'
 		},
 		addButton : {
-			backgroundImage : "img/btn_add.png",
-			width : 28,
-			height : 28
-			
+			backgroundImage : "img/black/btn_add_black.png",
+			width : 35,
+			height : 35
 		},
 		backButton : {
-			backgroundImage : "img/btn_back.png",
-			width : 49,
-			height : 28
+			backgroundImage : "img/black/btn_back_black.png",
+			width : 58,
+			height : 35
 		},
 		makenButton : {
-			backgroundImage : 'img/btn_maken.png',
-			width : 95,
-			height : 37,
+			backgroundImage : 'img/black/btn_maken_black.png',
+			width : 93,
+			height : 35,
 			right : 20,
 			top : 15
 		},
 		voegToeButton : {
-			backgroundImage : 'img/btn_maken.png',
-			width : 95,
-			height : 37,
+			backgroundImage : 'img/black/btn_voegtoe_black.png',
+			width : 93,
+			height : 35,
 			right : 20,
 			top : 15
 		},
 		verwijderenButton : {
-			backgroundImage : '/img/btn_verwijderen.png',
+			backgroundImage : '/img/black/btn_verwijderen_black.png',
 			top : 20,
 			left : 20,
 			width : 128,
-			height : 37
+			height : 35
 		},
 		starButton : {
 			backgroundImage : '/img/star_unselected.png',
@@ -213,11 +212,11 @@
 			height : 25
 		},
 		klaarButton : {
-			backgroundImage : '/img/btn_klaar.png',
-			top : -37,
+			backgroundImage : '/img/black/btn_klaar_black.png',
+			top : -35,
 			right : 20,
 			width : 128,
-			height : 37
+			height : 35
 		},
 		
 		//

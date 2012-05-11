@@ -51,7 +51,11 @@
 
 		function getDetail() {
 			var getReq = Titanium.Network.createHTTPClient();
-			getReq.open("GET", "http://localhost/smartsell/get_itemdetail.php");
+			if(Ti.App.localonline==="local"){
+				getReq.open("GET", "http://localhost/smartsell/get_itemdetail.php");
+			}else{
+				getReq.open("GET", "http://sofiehendrickx.eu/smartsell/get_itemdetail.php");
+			}
 			Titanium.API.info('Selected link id: '+Titanium.App.selectedIndex);
 			var params = {
 				linkId : Titanium.App.selectedIndex
@@ -134,7 +138,12 @@
 								alertDialog.addEventListener('click', function(ev) {
 								    if (ev.index == 0) { // "Ok"
 										var deleteProdReq = Titanium.Network.createHTTPClient();
-										deleteProdReq.open("GET", "http://localhost/smartsell/removeproduct.php");
+										if(Ti.App.localonline==="local"){
+											deleteProdReq.open("GET", "http://localhost/smartsell/removeproduct.php");
+										}else{
+											deleteProdReq.open("GET", "http://sofiehendrickx.eu/smartsell/removeproduct.php");
+										}
+										
 										deleteProdReq.timeout = 5000;
 										deleteProdReq.onload = function() {
 											try {
@@ -226,7 +235,12 @@
 					
 						verwijderenButton.addEventListener('click', function() {
 							var deleteReq = Titanium.Network.createHTTPClient();
-							deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							if(Ti.App.localonline==="local"){
+								deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
+							}else{
+								deleteReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_removelink.php");
+							}
+							
 							deleteReq.timeout = 5000;
 							deleteReq.onload = function() {
 								try {
@@ -254,12 +268,23 @@
 						});
 						var klaarButton = Titanium.UI.createButton(style.klaarButton);
 						scrollView.add(klaarButton);
+						var space = Ti.UI.createView({
+							height:20,
+							width:320,
+							top:0
+						});
+						scrollView.add(space);
 
 					
 						klaarButton.addEventListener('click', function() {
 							
 							var updateReq = Titanium.Network.createHTTPClient();
-							updateReq.open("GET", "http://localhost/smartsell/post_updatelink.php");
+							if(Ti.App.localonline==="local"){
+								updateReq.open("GET", "http://localhost/smartsell/post_updatelink.php");
+							}else{
+								updateReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_updatelink.php");
+							}
+							
 							updateReq.timeout = 5000;
 							updateReq.onload = function() {
 								try {

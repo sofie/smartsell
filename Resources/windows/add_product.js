@@ -27,7 +27,7 @@
 		addProductWin.add(linkProduct1);
 
 
-		var btnAddProduct = Titanium.UI.createButton(style.makenButton);
+		var btnAddProduct = Titanium.UI.createButton(style.voegToeButton);
 		addProductWin.add(btnAddProduct);
 
 
@@ -41,7 +41,12 @@
 		
 		function addProduct() {
 			var createReq = Titanium.Network.createHTTPClient();
-			createReq.open("POST", "http://localhost/smartsell/post_addproduct.php");
+			if(Ti.App.localonline==="local"){
+				createReq.open("POST", "http://localhost/smartsell/post_addproduct.php");
+			}else{
+				createReq.open("POST", "http://sofiehendrickx.eu/smartsell/post_addproduct.php");
+			}
+			
 
 			var params = {
 				productId : linkProduct1.value,
