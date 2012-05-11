@@ -3,18 +3,7 @@
 	Smart.ui.createDetailWindow = function() {
 
 		var detailWin = Titanium.UI.createWindow(style.Window);
-		detailWin.addEventListener('open',function(){
-			Ti.API.info('Detail win open');
 		
-		});
-		detailWin.addEventListener('blur',function(){
-			Ti.API.info('Detail win blur');
-		
-		});
-		detailWin.addEventListener('close',function(){
-			Ti.API.info('Detail win close');
-		});
-
 		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar,{
 			text : Titanium.App.selectedNaam
 		}));
@@ -33,7 +22,7 @@
 		var addButton = Titanium.UI.createButton(style.addButton);
 
 		addButton.addEventListener('click', function() {
-			Smart.navGroup.open(Smart.ui.createAddProductWindow(), {
+			Smart.navGroup.open(Smart.ui.createAddProductVanOpLinkWindow(), {
 				animated : false
 			});
 			
@@ -52,9 +41,9 @@
 		function getDetail() {
 			var getReq = Titanium.Network.createHTTPClient();
 			if(Ti.App.localonline==="local"){
-				getReq.open("GET", "http://localhost/smartsell/get_itemdetail.php");
+				getReq.open("GET", "http://localhost/smartsell/get_linkdetail.php");
 			}else{
-				getReq.open("GET", "http://sofiehendrickx.eu/smartsell/get_itemdetail.php");
+				getReq.open("GET", "http://sofiehendrickx.eu/smartsell/get_linkdetail.php");
 			}
 			Titanium.API.info('Selected link id: '+Titanium.App.selectedIndex);
 			var params = {
@@ -81,10 +70,11 @@
 							Titanium.App.i = i;
 						
 							Ti.App.pTitle = detail[i].pMerk + ' ' + detail[i].pTitel;
+							Ti.App.linkId = detail[i].linkId;
 							var pFoto = detail[i].pFoto;
 							var id = detail[i].id;
 							Ti.App.pId = detail[i].pId;
-							Ti.API.info('pId: '+id+ ',pId: '+Ti.App.pId);
+							Ti.API.info('pId: '+id+ ',linkId: '+Ti.App.linkId );
 							var pBeschrijving = detail[i].pBeschrijving;
 							var pPrijs = detail[i].pPrijs;
 							Ti.App.geldigVan = detail[i].pStart;

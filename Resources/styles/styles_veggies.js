@@ -30,7 +30,7 @@
 			style : Titanium.UI.iPhone.TableViewStyle.GROUPED
 		},
 		row : {
-			height : 40,
+			height : 30,
 			backgroundImage : 'img/bg_row.png',
 			width : 280,
 			selectedBackgroundColor : '#e3602b',

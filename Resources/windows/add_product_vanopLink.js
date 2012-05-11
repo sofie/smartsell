@@ -1,6 +1,6 @@
 (function() {
 
-	Smart.ui.createAddProductWindow = function() {
+	Smart.ui.createAddProductVanOpLinkWindow = function() {
 		var addProductWin = Titanium.UI.createWindow(Smart.combine(style.Window,{
 			layout:'vertical'
 		}));
@@ -10,7 +10,7 @@
 		}));
 		addProductWin.setTitleControl(lblTitle);
 		addProductWin.addEventListener('open',function(){
-			Ti.API.info('Product toevoegen vanaf ander product.');
+			Ti.API.info('Product toevoegen vanop overzicht link.');
 		});
 		//Backbutton
 		var backButton = Titanium.UI.createButton(style.backButton);
@@ -52,7 +52,7 @@
 
 			var params = {
 				productId : linkProduct1.value,
-				linkId:Titanium.App.linkId
+				linkId:Ti.App.linkId
 			};
 
 			createReq.onload = function() {
@@ -67,8 +67,7 @@
 						Smart.navGroup.close(addProductWin, {
 							animated : false
 						});
-						Titanium.App.prodId = linkProduct1.value;
-						Smart.navGroup.open(Smart.ui.createDetailProductWindow(), {
+						Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 								animated : false
 						});
 					} else {

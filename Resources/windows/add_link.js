@@ -22,15 +22,10 @@
 
 		var linkProduct1 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
 			top : 10,
-			hintText : 'Product 1'
+			hintText : 'Product barcode'
 		}));
 		addKoppelingWin.add(linkProduct1);
 
-		var linkProduct2 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
-			top : 10,
-			hintText : 'Product 2'
-		}));
-		addKoppelingWin.add(linkProduct2);
 
 		var btnCreateLijstje = Titanium.UI.createButton(style.makenButton);
 		addKoppelingWin.add(btnCreateLijstje);
@@ -54,25 +49,38 @@
 			
 
 			var params = {
-				linkProduct1 : linkProduct1.value,
-				linkProduct2 : linkProduct2.value
+				linkProduct1 : linkProduct1.value
 			};
 
 			createReq.onload = function() {
 				try {
 					var json = this.responseText;
 					var response = JSON.parse(json);
-					if(response.add === true) {
-						Titanium.API.info('Add link: ' + this.responseText);
-						Ti.App.fireEvent('app:reloadLinks', {
-							action : 'Reload links'
-						});
-						Smart.navGroup.close(addKoppelingWin, {
-							animated : false
-						});
-					} else {
+					Ti.API.info("Add link: "+this.responseText);
+					
+					if(response.bestaatAl===true){
 						alert('Link bestaat al.');
+					}else{
+						if(response.add === true) {
+							Ti.App.fireEvent('app:reloadLinks', {
+								action : 'Reload links'
+							});
+							Smart.navGroup.close(addKoppelingWin, {
+								animated : false
+							});
+							Titanium.App.prodId = linkProduct1.value;
+							Titanium.App.linkId=response.linkId;
+							Titanium.App.linkNaam=response.linkNaam;
+							
+							Smart.navGroup.open(Smart.ui.createDetailProductWindow(), {
+								animated : false
+							});
+						} else {
+							alert('Link kan niet toegevoegd worden.');
+						}
 					}
+					
+					
 				} catch(e) {
 					alert(e);
 				}

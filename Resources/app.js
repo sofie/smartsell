@@ -11,8 +11,10 @@ Ti.include(
 	'windows/main.js',
 	
 	'windows/add_link.js',
+	'windows/add_product_vanopLink.js',
 	'windows/detail_link.js',
 	'windows/add_product.js',
+	'windows/detail_product.js',
 	
 	//'styles/styles.js',
 	'styles/styles_veggies.js',
