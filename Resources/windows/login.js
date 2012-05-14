@@ -12,6 +12,7 @@
 
 		//Eerste scherm
 		navWindow = Ti.UI.createWindow();
+		
 		Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
 			window : loginWin
 		});
@@ -20,6 +21,7 @@
 		navWindow.open({
 			animated : false
 		});
+		
 		loginWin.addEventListener('open',function(){
 			Ti.API.info('Login win open');
 		})
@@ -64,9 +66,9 @@
 			sourceType : [{
 				"Library" : false
 			}, {
-				"Camera" : false
+				"Camera" : true
 			}, {
-				"Album" : true
+				"Album" : false
 			}],
 			cameraMode : [{
 				"Default" : true
@@ -94,6 +96,7 @@
 				"ISBN-10" : false
 			}
 		};
+		Ti.API.info('Media: '+Titanium.Media.getAvailableCameraMediaTypes);
 		afbPersoneelskaart.addEventListener('click', function() {
 			var config = {};
 			for(var section in allConfigWithDefaults) {
@@ -112,6 +115,7 @@
 			}
 
 			Ti.API.debug(JSON.stringify(config));
+			
 			TiBar.scan({
 				configure : config,
 				success : function(data) {

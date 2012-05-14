@@ -16,6 +16,7 @@
 			Smart.navGroup.close(detailWin, {
 				animated : false
 			});
+			Smart.ui.createApplicationMainWin();
 		});
 		detailWin.leftNavButton = backButton;
 		

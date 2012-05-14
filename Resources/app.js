@@ -16,8 +16,8 @@ Ti.include(
 	'windows/add_product.js',
 	'windows/detail_product.js',
 	
-	//'styles/styles.js',
-	'styles/styles_veggies.js',
+	'styles/styles.js',
+	//'styles/styles_veggies.js',
 	'config/config.js'
 );
 Smart.ui.createLoginWindow();

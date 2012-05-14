@@ -67,6 +67,7 @@
 						Smart.navGroup.close(addProductWin, {
 							animated : false
 						});
+						
 						Titanium.App.prodId = linkProduct1.value;
 						Smart.navGroup.open(Smart.ui.createDetailProductWindow(), {
 								animated : false

@@ -1,14 +1,18 @@
 (function() {
 
 	Smart.ui.createApplicationMainWin = function() {
-		
-		var mainWindow = Titanium.UI.createWindow(style.Window);
-		mainWindow.addEventListener('open', function() {
-			getLinks();
-			Ti.API.info('Main win open, personeelnummer: '+Titanium.App.personeelNummer);
-		});
-		navWindow = Ti.UI.createWindow();
+		var navWindow;
 
+		var mainWindow = Titanium.UI.createWindow(style.Window);
+
+		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar, {
+			text : 'SmartSell'
+		}));
+		mainWindow.setTitleControl(lblTitle);
+
+		//Eerste scherm
+		navWindow = Ti.UI.createWindow();
+		
 		Smart.navGroup = Ti.UI.iPhone.createNavigationGroup({
 			window : mainWindow
 		});
@@ -17,7 +21,12 @@
 		navWindow.open({
 			animated : false
 		});
-
+		
+		mainWindow.addEventListener('open',function(){
+			getLinks();
+			Ti.API.info('Main win open, personeelnummer: '+Titanium.App.personeelNummer);
+		})
+		
 		//
 		//Navigationbar
 		//
@@ -29,6 +38,7 @@
 		var addButton = Titanium.UI.createButton(style.addButton);
 
 		addButton.addEventListener('click', function(e) {
+			
 			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow(), {
 				animated : false
 			});
@@ -118,6 +128,9 @@
 						listLinks.addEventListener('click', function(e) {
 							Titanium.App.selectedIndex = links[e.index].linkId;
 							Titanium.App.selectedNaam = links[e.index].linkNaam;
+							Smart.navGroup.close(mainWindow,{
+								animated : false
+							});
 							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 								animated : false
 							});

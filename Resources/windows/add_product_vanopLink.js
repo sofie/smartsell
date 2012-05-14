@@ -59,20 +59,26 @@
 				try {
 					var json = this.responseText;
 					var response = JSON.parse(json);
-					if(response.add === true) {
-						Titanium.API.info('Add product: ' + this.responseText);
-						Ti.App.fireEvent('app:reloadDetail', {
-							action : 'Reload detail'
-						});
-						Smart.navGroup.close(addProductWin, {
-							animated : false
-						});
-						Smart.navGroup.open(Smart.ui.createDetailWindow(), {
+					Ti.API.info('Product toevoegen: '+response);
+					if(response.noProduct===true){
+						alert('Product niet gevonden. Probeer opnieuw.');
+					}else{
+						if(response.add === true) {
+							Titanium.API.info('Add product: ' + this.responseText);
+							Ti.App.fireEvent('app:reloadDetail', {
+								action : 'Reload detail'
+							});
+							Smart.navGroup.close(addProductWin, {
 								animated : false
-						});
-					} else {
-						alert('Product kan niet worden toegevoegd.');
+							});
+							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
+									animated : false
+							});
+						} else {
+							alert('Product kan niet worden toegevoegd.');
+						}
 					}
+					
 				} catch(e) {
 					alert(e);
 				}

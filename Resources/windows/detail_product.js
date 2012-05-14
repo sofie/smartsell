@@ -129,6 +129,7 @@
 		detailproductWindow.add(voegLaterToeButton);
 		voegLaterToeButton.addEventListener('click', function() {
 			Titanium.App.selectedIndex = Titanium.App.linkId;
+			Ti.API.info('Link id: '+Titanium.App.selectedIndex);
 			Titanium.App.selectedNaam=Titanium.App.linkNaam;
 			Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 				animated : false

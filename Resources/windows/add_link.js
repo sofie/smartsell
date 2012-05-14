@@ -20,23 +20,95 @@
 		});
 		addKoppelingWin.leftNavButton = backButton;
 
-		var linkProduct1 = Titanium.UI.createTextField(Smart.combine(style.inputField,{
-			top : 10,
-			hintText : 'Product barcode'
-		}));
-		addKoppelingWin.add(linkProduct1);
-
-
+		
 		var btnCreateLijstje = Titanium.UI.createButton(style.makenButton);
 		addKoppelingWin.add(btnCreateLijstje);
 
+		var TiBar = require('tibar');
+		Ti.API.info("module is => " + TiBar);
 
+		var allConfigWithDefaults = {
+			classType : [{
+				"ZBarReaderController" : true
+			}],
+			sourceType : [{
+				"Library" : false
+			}, {
+				"Camera" : true
+			}, {
+				"Album" : false
+			}],
+			cameraMode : [{
+				"Default" : true
+			}],
+			config : {
+				"showsCameraControls" : true,
+				"showsZBarControls" : true,
+				"tracksSymbols" : true,
+				"enableCache" : true,
+				"showsHelpOnFail" : true,
+				"takesPicture" : false
+			},
+			symbol : {
+				"QR-Code" : false,
+				"CODE-128" : false,
+				"CODE-39" : false,
+				"I25" : false,
+				"DataBar" : false,
+				"DataBar-Exp" : false,
+				"EAN-13" : true,
+				"EAN-8" : true,
+				"UPC-A" : false,
+				"UPC-E" : false,
+				"ISBN-13" : false,
+				"ISBN-10" : false
+			}
+		};
 		btnCreateLijstje.addEventListener('click', function(e) {
-			if(linkProduct1.value != '') {
+			/*if(linkProduct1.value != '') {
 				addLink();
 			} else {
 				alert('Gelieve een naam in te vullen.');
+			}*/
+			
+			var config = {};
+			for(var section in allConfigWithDefaults) {
+				if( typeof allConfigWithDefaults[section] === 'object' && allConfigWithDefaults[section] instanceof Array) {
+					for(var itemix in allConfigWithDefaults[section]) {
+						for(var labelname in allConfigWithDefaults[section][itemix]) {
+
+							if(allConfigWithDefaults[section][itemix][labelname]) {
+								config[section] = labelname;
+							}
+						}
+					}
+				} else {
+					config[section] = allConfigWithDefaults[section];
+				}
 			}
+
+			Ti.API.debug(JSON.stringify(config));
+			TiBar.scan({
+				configure : config,
+				success : function(data) {
+					Ti.App.productBarcode=data.barcode;
+					addLink();
+					Ti.API.info('TiBar success callback!');
+					if(data && data.barcode) {
+						Ti.API.info("Barcode: "+data.barcode+", symbol: "+data.symbology);
+						/*Ti.UI.createAlertDialog({
+							title : "Scan result",
+							message : "Inloggen gelukt."
+						}).show();*/
+					}
+				},
+				cancel : function() {
+					Ti.API.info('TiBar cancel callback!');
+				},
+				error : function() {
+					Ti.API.info('TiBar error callback!');
+				}
+			});
 		});
 		
 		function addLink() {
@@ -49,7 +121,7 @@
 			
 
 			var params = {
-				linkProduct1 : linkProduct1.value
+				linkProduct1 : Ti.App.productBarcode
 			};
 
 			createReq.onload = function() {
@@ -68,7 +140,7 @@
 							Smart.navGroup.close(addKoppelingWin, {
 								animated : false
 							});
-							Titanium.App.prodId = linkProduct1.value;
+							Titanium.App.prodId = response.productId;
 							Titanium.App.linkId=response.linkId;
 							Titanium.App.linkNaam=response.linkNaam;
 							
