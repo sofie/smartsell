@@ -43,7 +43,8 @@
 			top : 20,
 			backgroundImage : 'img/bg_product.png',
 			backgroundColor : '#fff',
-			height : 86
+			height : 86,
+			selectionStyle:Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
 		},
 		titleBar : {
 			color : '#fff',
@@ -231,6 +232,13 @@
 		},
 		starButton : {
 			backgroundImage : '/img/star_unselected.png',
+			top : 4,
+			left : 13,
+			width : 25,
+			height : 25
+		},
+		starSelectedButton : {
+			backgroundImage : '/img/star.png',
 			top : 4,
 			left : 13,
 			width : 25,

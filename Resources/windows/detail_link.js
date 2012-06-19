@@ -53,6 +53,11 @@
 		Titanium.App.addEventListener('app:reloadProducts', function(e) {
 			getDetail();
 		});
+		Titanium.App.addEventListener('app:reloadProductsStar', function(e) {
+			getDetail();
+			Ti.App.van.value="";
+			Ti.App.tot.value="";
+		});
 
 		function getDetail() {
 			var data = [];
@@ -94,18 +99,57 @@
 							Ti.API.info('pId: ' + id + ',linkId: ' + Ti.App.linkId);
 							var pBeschrijving = detail[i].pBeschrijving;
 							var pPrijs = detail[i].pPrijs;
+							var favourite = detail[i].hoofdProduct;
 							Ti.App.geldigVan = detail[i].pStart;
 							Ti.App.geldigTot = detail[i].pStop;
-
+							
+							
+							
 							var row = Ti.UI.createTableViewRow(style.rowDetail);
 
 							var titel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle, {
 								text : Ti.App.pTitle,
 								left : 45
 							}));
-							var star_btn = Titanium.UI.createButton(style.starButton);
+							var star_btn = Titanium.UI.createLabel(style.starButton);
+							if(favourite==Ti.App.pId){
+								star_btn.backgroundImage='/img/star.png'
+							}
+							
 							star_btn.addEventListener('click', function(e) {
-								Ti.API.info('Favourite: ' + detail[e.index].pMerk);
+								Ti.API.info('Favourite: '+ detail[e.index].pId);
+								var updateReq = Titanium.Network.createHTTPClient();
+								if (Ti.App.localonline === "local") {
+									updateReq.open("GET", "http://localhost/smartsell/post_favourite.php");
+								} else {
+									updateReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_favourite.php");
+								}
+	
+								updateReq.timeout = 5000;
+								updateReq.onload = function() {
+									try {
+										var json = this.responseText;
+										var response = JSON.parse(json);
+										if (response.update === true) {
+											Titanium.API.info('Update favourite: ' + this.responseText);
+											
+											Ti.App.fireEvent('app:reloadProductsStar', {
+												action : 'Reload products'
+											});
+	
+										} else {
+											alert('Product kan niet gefavorite worden.');
+										}
+									} catch(e) {
+										alert(e);
+									}
+								};
+	
+								var params = {
+									productId:detail[e.index].pId,
+									linkId:Titanium.App.selectedIndex
+								};
+								updateReq.send(params);
 							});
 
 							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete, {
@@ -195,6 +239,7 @@
 							value : Ti.App.geldigVan,
 							editable : false
 						}));
+						Ti.App.van=geldigVanInput;
 
 						geldigVanInput.addEventListener('focus', function() {
 							geldigVanInput.blur();
@@ -204,7 +249,7 @@
 								top : 0,
 								left : 0,
 								backgroundColor : 'black',
-								opacity : 0.8
+								opacity : 0.82
 							});
 							
 							var value = new Date();
@@ -269,7 +314,7 @@
 					       		 detailWin.remove(pickerView);
 					       });
 
-						})
+						});
 						if (Ti.App.geldigVan === null) {
 							geldigVanInput.hintText = "Geef datum in"
 						}
@@ -285,6 +330,8 @@
 							top : 0,
 							value : Ti.App.geldigTot
 						}));
+						Ti.App.tot=geldigTotInput;
+						
 						geldigTotInput.addEventListener('focus', function() {
 							geldigTotInput.blur();
 							var pickerView = Ti.UI.createView({
@@ -293,7 +340,7 @@
 								top : 0,
 								left : 0,
 								backgroundColor : 'black',
-								opacity : 0.8
+								opacity : 0.82
 							});
 							
 							var value = new Date();
@@ -348,14 +395,17 @@
 							});
 							
 							pickerKlaarButton.addEventListener('click',function(e){
+								if(Ti.App.inputDate==undefined){
+									Ti.App.inputDate="Geef datum opnieuw in."
+								}
 					            geldigTotInput.setValue(''+ Ti.App.inputDate);
 					            detailWin.remove(pickerView);
 					       });
 					       annulerenButton.addEventListener('click',function(e){
 					       		 detailWin.remove(pickerView);
 					       });
-
-						})
+						});
+						
 						if (Ti.App.geldigTot === null) {
 							geldigTotInput.hintText = "Geef datum in"
 						}

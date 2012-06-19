@@ -6,7 +6,7 @@ if (!$conn -> connect_error) {
 
 	$linkId = $_POST['linkId'];
 
-	$qry = "SELECT links.linkId, linkNaam,name, title, description, price, photo, products.id, linkStart, linkStop, link_details.productId
+	$qry = "SELECT links.linkId, linkNaam,name, title, description, price, photo, products.id, linkStart, linkStop, link_details.productId,linkHoofdproduct
 			FROM link_details
 			INNER JOIN products ON (products.id = link_details.productId)
 			INNER JOIN links ON (links.linkId = link_details.linkId)
@@ -32,7 +32,8 @@ if (!$conn -> connect_error) {
 				"pBeschrijving" => $singleResult['description'], 
 				"pPrijs" => $singleResult['price'],
 				"pStart" => $singleResult['linkStart'],
-				"pStop" => $singleResult['linkStop']);
+				"pStop" => $singleResult['linkStop'],
+				"hoofdProduct" => $singleResult['linkHoofdproduct']);
 
 			$list[] = $response;
 		};
