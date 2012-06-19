@@ -2,8 +2,8 @@ var Smart = {
     ui: {},
     navGroup: undefined
 };
-//Ti.App.localonline="online";
-Ti.App.localonline="local";
+Ti.App.localonline="online";
+//Ti.App.localonline="local";
 
 //windows & ui
 Ti.include(
