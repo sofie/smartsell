@@ -3,8 +3,8 @@
 	Smart.ui.createDetailWindow = function() {
 
 		var detailWin = Titanium.UI.createWindow(style.Window);
-		
-		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar,{
+
+		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar, {
 			text : Titanium.App.selectedNaam
 		}));
 		detailWin.setTitleControl(lblTitle);
@@ -19,34 +19,51 @@
 			Smart.ui.createApplicationMainWin();
 		});
 		detailWin.leftNavButton = backButton;
-		
+
 		var addButton = Titanium.UI.createButton(style.addButton);
 
 		addButton.addEventListener('click', function() {
-			Smart.navGroup.open(Smart.ui.createAddProductVanOpLinkWindow(), {
-				animated : false
+			Ti.include("/config/barcode.js");
+		
+			Ti.API.debug(JSON.stringify(config));
+			TiBar.scan({
+				configure : config,
+				success : function(data) {
+					Ti.App.productBarcode=data.barcode;
+					addProduct();
+					Ti.API.info('TiBar success callback!');
+					if(data && data.barcode) {
+						Ti.API.info("Barcode: "+data.barcode+", symbol: "+data.symbology);
+						
+					}
+				},
+				cancel : function() {
+					Ti.API.info('TiBar cancel callback!');
+				},
+				error : function() {
+					Ti.API.info('TiBar error callback!');
+				}
 			});
-			
+
 		});
 		detailWin.rightNavButton = addButton;
-		
+
 		getDetail();
-		
-		Titanium.App.addEventListener('app:reloadDetail', function(e) {
-			Ti.API.info('Reload detail');
-			/*detailWin.close();*/
+
+		Titanium.App.addEventListener('app:reloadProducts', function(e) {
 			getDetail();
-			//detailWin.open();
 		});
 
 		function getDetail() {
+			var data = [];
+
 			var getReq = Titanium.Network.createHTTPClient();
-			if(Ti.App.localonline==="local"){
+
+			if (Ti.App.localonline === "local") {
 				getReq.open("GET", "http://localhost/smartsell/get_linkdetail.php");
-			}else{
+			} else {
 				getReq.open("GET", "http://sofiehendrickx.eu/smartsell/get_linkdetail.php");
 			}
-			Titanium.API.info('Selected link id: '+Titanium.App.selectedIndex);
 			var params = {
 				linkId : Titanium.App.selectedIndex
 			};
@@ -57,92 +74,73 @@
 					var detail = JSON.parse(this.responseText);
 
 					//Er zijn nog geen linken in de databank
-					if(detail.getItem === false) {
-						Titanium.API.info('Nog geen links '+this.responseText);
-						var lblNoLink = Titanium.UI.createLabel(Smart.combine(style.textError,{
+					if (detail.getItem === false) {
+						Titanium.API.info('Nog geen links ' + this.responseText);
+						var lblNoLink = Titanium.UI.createLabel(Smart.combine(style.textError, {
 							text : 'Deze link heeft nog geen producten.',
 							top : 30
 						}));
 						detailWin.add(lblNoLink);
 
 					} else {
-						var scrollView = Titanium.UI.createScrollView(style.scrollView);
-						for(var i = 0, j = detail.length; i < j; i++) {
+						var scrollView = Titanium.UI.createView(style.scrollView);
+						for (var i = 0, j = detail.length; i < j; i++) {
 							Titanium.App.i = i;
-						
+
 							Ti.App.pTitle = detail[i].pMerk + ' ' + detail[i].pTitel;
 							Ti.App.linkId = detail[i].linkId;
-							var pFoto = detail[i].pFoto;
 							var id = detail[i].id;
 							Ti.App.pId = detail[i].pId;
-							Ti.API.info('pId: '+id+ ',linkId: '+Ti.App.linkId );
+							Ti.API.info('pId: ' + id + ',linkId: ' + Ti.App.linkId);
 							var pBeschrijving = detail[i].pBeschrijving;
 							var pPrijs = detail[i].pPrijs;
 							Ti.App.geldigVan = detail[i].pStart;
 							Ti.App.geldigTot = detail[i].pStop;
-						
 
-							var bgView = Titanium.UI.createView(style.bgProduct);
+							var row = Ti.UI.createTableViewRow(style.rowDetail);
 
-							var cropView = Titanium.UI.createView({
-								width : 100,
-								height : 100,
-								borderColor : '#B6AFA9',
-								backgroundColor : '#fff',
-								borderWidth:0.5
-							});
-
-							var baseImg = Titanium.UI.createImageView({
-								image : pFoto
-							});
-							cropView.add(baseImg);
-
-							var croppedImage = cropView.toImage();
-
-							var imageView = Titanium.UI.createImageView({
-								image : croppedImage,
-								width : 100,
-								height : 100,
-								left : 20,
-								top : 45
-							});
-
-							var titel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
+							var titel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle, {
 								text : Ti.App.pTitle,
-								left:45
+								left : 45
 							}));
 							var star_btn = Titanium.UI.createButton(style.starButton);
-							
-							
-							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete,{
+							star_btn.addEventListener('click', function(e) {
+								Ti.API.info('Favourite: ' + detail[e.index].pMerk);
+							});
+
+							var delete_btn = Titanium.UI.createLabel(Smart.combine(style.textDelete, {
 								text : 'X'
 							}));
-							
-							delete_btn.addEventListener('click',function(){
+
+							delete_btn.addEventListener('click', function(e) {
 								var alertDialog = Ti.UI.createAlertDialog({
 									title : 'Product verwijderen',
-									message : Ti.App.pTitle+' uit link verwijderen?',
-									buttonNames : ['OK','Annuleer']
+									message : detail[e.index].pMerk + ' uit link verwijderen?',
+									buttonNames : ['OK', 'Annuleer']
 								});
 								alertDialog.show();
-								
+
 								alertDialog.addEventListener('click', function(ev) {
-								    if (ev.index == 0) { // "Ok"
+									if (ev.index == 0) {// "Ok"
 										var deleteProdReq = Titanium.Network.createHTTPClient();
-										if(Ti.App.localonline==="local"){
+										if (Ti.App.localonline === "local") {
 											deleteProdReq.open("GET", "http://localhost/smartsell/removeproduct.php");
-										}else{
+										} else {
 											deleteProdReq.open("GET", "http://sofiehendrickx.eu/smartsell/removeproduct.php");
 										}
-										
+
 										deleteProdReq.timeout = 5000;
 										deleteProdReq.onload = function() {
 											try {
 												var json = this.responseText;
 												var response = JSON.parse(json);
-												if(response.remove === true) {
+												if (response.remove === true) {
 													Titanium.API.info('Remove product: ' + this.responseText);
-			
+
+													Ti.App.fireEvent('app:reloadProducts', {
+														action : 'Reload products'
+													});
+
 												} else {
 													alert('Product kan niet verwijderd worden.');
 												}
@@ -150,94 +148,236 @@
 												alert(e);
 											}
 										};
-			
+
 										var params = {
-											linkId:Titanium.App.selectedIndex,
-											productId : Ti.App.pId
+											linkId : Titanium.App.selectedIndex,
+											productId : detail[e.index].pId
 										};
 										deleteProdReq.send(params);
-								    } 
-								  });
-								
-								
-								Ti.App.fireEvent('app:reloadDetail', {
-									action : 'Reload detail'
+									}
 								});
-								
 							});
 
-							var beschrijving = Titanium.UI.createLabel(Smart.combine(style.textProductDescription,{
-								text:pBeschrijving
+							var beschrijving = Titanium.UI.createLabel(Smart.combine(style.textProductDescription, {
+								text : pBeschrijving
 							}));
-							
-							var prijs = Titanium.UI.createLabel(Smart.combine(style.textProductPrice,{
+
+							var prijs = Titanium.UI.createLabel(Smart.combine(style.textProductPrice, {
 								text : '€ ' + pPrijs
 							}));
-							bgView.add(delete_btn);
-							bgView.add(star_btn);
-							bgView.add(titel);
-							
-							bgView.add(imageView);
-							bgView.add(beschrijving);
-							bgView.add(prijs);
 
-							scrollView.add(bgView);
+							row.add(delete_btn);
+							row.add(star_btn);
+							row.add(titel);
+							row.add(beschrijving);
+							row.add(prijs);
+							row.className = 'item' + i;
+							data[i] = row;
+
 						};
-						star_btn.addEventListener('click',function(e){
-								Ti.API.info('Product Id: '+detail[e.index].pId);
-							});
+						var listLinks = Titanium.UI.createTableView(Smart.combine(style.tableView, {
+							data : data,
+							bottom : 230
+						}));
+						detailWin.add(listLinks);
+
 						//
 						//Update link
-						//						
-						
-						var geldigVanLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
-							text:'Geldig van',
-							top:20
+						//
+						var geldigVanLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle, {
+							text : 'Geldig van',
+							top : 40
 						}));
 						scrollView.add(geldigVanLabel);
-						
-						var geldigVanInput = Titanium.UI.createTextField(Smart.combine(style.inputField,{
-							top : 10,
-							value : Ti.App.geldigVan
+
+						var geldigVanInput = Titanium.UI.createTextField(Smart.combine(style.inputField, {
+							top : 0,
+							value : Ti.App.geldigVan,
+							editable : false
 						}));
-						if(Ti.App.geldigVan===null){
-							geldigVanInput.hintText="Geef datum in"
+
+						geldigVanInput.addEventListener('focus', function() {
+							geldigVanInput.blur();
+							var pickerView = Ti.UI.createView({
+								width : '100%',
+								height : '100%',
+								top : 0,
+								left : 0,
+								backgroundColor : 'black',
+								opacity : 0.8
+							});
+							
+							var value = new Date();
+							value.setFullYear(value.getFullYear());
+							value.setMonth(value.getMonth());
+							value.setDate(value.getDate()-1);
+
+							var picker = Ti.UI.createPicker({
+								type : Ti.UI.PICKER_TYPE_DATE,
+								minDate : new Date(2012, 1, 1),
+								value : value
+							});
+
+							// turn on the selection indicator (off by default)
+							picker.selectionIndicator = true;
+
+							var pickerKlaarButton = Titanium.UI.createButton({
+								backgroundImage : '/img/btn_klaar.png',
+								bottom : 15,
+								right : 20,
+								width : 128,
+								height : 37
+							});
+							var annulerenButton = Titanium.UI.createButton(Smart.combine(style.verwijderenButton,{
+								top:365,
+								backgroundImage : '/img/btn_annuleren.png',
+							}));
+							
+							pickerView.add(picker);
+							pickerView.add(annulerenButton);
+							pickerView.add(pickerKlaarButton);
+							detailWin.add(pickerView);
+							
+							picker.addEventListener('change',function(e){
+								var pickerdate = e.value;
+								Ti.App.pickerDate=e.value;
+							 
+							    var day = pickerdate.getDate();
+							    day = day.toString();
+							    if (day.length < 2) {
+							        day = '0' + day;
+							    }
+							     Ti.App.day=day;
+							    
+							    var month = pickerdate.getMonth();
+							    month = month + 1;
+							    month = month.toString();
+							    if (month.length < 2) {
+							        month = '0' + month;
+							    }
+							    Ti.App.month=month;
+							 
+							    var year = pickerdate.getFullYear();
+							    Ti.App.inputDate = year + "-" + month + "-" + day+" 00:00:00";
+							});
+							
+							pickerKlaarButton.addEventListener('click',function(e){
+					            geldigVanInput.setValue(''+ Ti.App.inputDate);
+					            detailWin.remove(pickerView);
+					       });
+					       annulerenButton.addEventListener('click',function(e){
+					       		 detailWin.remove(pickerView);
+					       });
+
+						})
+						if (Ti.App.geldigVan === null) {
+							geldigVanInput.hintText = "Geef datum in"
 						}
 						scrollView.add(geldigVanInput);
-						
-						var geldigTotLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle,{
-							text:'Geldig tot',
-							top:20
+
+						var geldigTotLabel = Titanium.UI.createLabel(Smart.combine(style.textProductTitle, {
+							text : 'Geldig tot',
+							top : 15
 						}));
 						scrollView.add(geldigTotLabel);
-						
-						
-						var geldigTotInput = Titanium.UI.createTextField(Smart.combine(style.inputField,{
-							top : 10,
+
+						var geldigTotInput = Titanium.UI.createTextField(Smart.combine(style.inputField, {
+							top : 0,
 							value : Ti.App.geldigTot
 						}));
-						if(Ti.App.geldigTot===null){
-							geldigTotInput.hintText="Geef datum in"
+						geldigTotInput.addEventListener('focus', function() {
+							geldigTotInput.blur();
+							var pickerView = Ti.UI.createView({
+								width : '100%',
+								height : '100%',
+								top : 0,
+								left : 0,
+								backgroundColor : 'black',
+								opacity : 0.8
+							});
+							
+							var value = new Date();
+							value.setFullYear(value.getFullYear());
+							value.setMonth(value.getMonth());
+							value.setDate(value.getDate());
+
+							var picker = Ti.UI.createPicker({
+								type : Ti.UI.PICKER_TYPE_DATE,
+								minDate : new Date(2012, Ti.App.month-1, Ti.App.day),
+								value : value
+							});
+
+							// turn on the selection indicator (off by default)
+							picker.selectionIndicator = true;
+
+							var pickerKlaarButton = Titanium.UI.createButton({
+								backgroundImage : '/img/btn_klaar.png',
+								bottom : 15,
+								right : 20,
+								width : 128,
+								height : 37
+							});
+							var annulerenButton = Titanium.UI.createButton(Smart.combine(style.verwijderenButton,{
+								top:365,
+								backgroundImage : '/img/btn_annuleren.png',
+							}));
+							
+							pickerView.add(picker);
+							pickerView.add(pickerKlaarButton);
+							pickerView.add(annulerenButton);
+							detailWin.add(pickerView);
+							
+							picker.addEventListener('change',function(e){
+								var pickerdate = e.value;
+							 
+							    var day = pickerdate.getDate();
+							    day = day.toString();
+							    if (day.length < 2) {
+							        day = '0' + day;
+							    }
+							    
+							    var month = pickerdate.getMonth();
+							    month = month + 1;
+							    month = month.toString();
+							    if (month.length < 2) {
+							        month = '0' + month;
+							    }
+							 
+							    var year = pickerdate.getFullYear();
+							    Ti.App.inputDate = year + "-" + month + "-" + day+" 00:00:00";
+							});
+							
+							pickerKlaarButton.addEventListener('click',function(e){
+					            geldigTotInput.setValue(''+ Ti.App.inputDate);
+					            detailWin.remove(pickerView);
+					       });
+					       annulerenButton.addEventListener('click',function(e){
+					       		 detailWin.remove(pickerView);
+					       });
+
+						})
+						if (Ti.App.geldigTot === null) {
+							geldigTotInput.hintText = "Geef datum in"
 						}
 						scrollView.add(geldigTotInput);
-						
+
 						var verwijderenButton = Titanium.UI.createButton(style.verwijderenButton);
 						scrollView.add(verwijderenButton);
-					
+
 						verwijderenButton.addEventListener('click', function() {
 							var deleteReq = Titanium.Network.createHTTPClient();
-							if(Ti.App.localonline==="local"){
+							if (Ti.App.localonline === "local") {
 								deleteReq.open("GET", "http://localhost/smartsell/post_removelink.php");
-							}else{
+							} else {
 								deleteReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_removelink.php");
 							}
-							
+
 							deleteReq.timeout = 5000;
 							deleteReq.onload = function() {
 								try {
 									var json = this.responseText;
 									var response = JSON.parse(json);
-									if(response.remove === true) {
+									if (response.remove === true) {
 										Titanium.API.info('Remove link: ' + this.responseText);
 
 									} else {
@@ -260,29 +400,30 @@
 						var klaarButton = Titanium.UI.createButton(style.klaarButton);
 						scrollView.add(klaarButton);
 						var space = Ti.UI.createView({
-							height:20,
-							width:320,
-							top:0
+							height : 20,
+							width : 320,
+							top : 0
 						});
 						scrollView.add(space);
 
-					
 						klaarButton.addEventListener('click', function() {
-							
+
 							var updateReq = Titanium.Network.createHTTPClient();
-							if(Ti.App.localonline==="local"){
+							if (Ti.App.localonline === "local") {
 								updateReq.open("GET", "http://localhost/smartsell/post_updatelink.php");
-							}else{
+							} else {
 								updateReq.open("GET", "http://sofiehendrickx.eu/smartsell/post_updatelink.php");
 							}
-							
+
 							updateReq.timeout = 5000;
 							updateReq.onload = function() {
 								try {
 									var json = this.responseText;
 									var response = JSON.parse(json);
-									if(response.update === true) {
+									if (response.update === true) {
 										Titanium.API.info('Update link: ' + this.responseText);
+										detailWin.close();
+										Smart.ui.createApplicationMainWin();
 
 									} else {
 										alert('Link kan niet geüpdatet worden.');
@@ -294,17 +435,14 @@
 
 							var params = {
 								linkId : Titanium.App.selectedIndex,
-								linkStart :geldigVanInput.value ,
-								linkStop:geldigTotInput.value
+								linkStart : geldigVanInput.value,
+								linkStop : geldigTotInput.value
 							};
 							updateReq.send(params);
-							Smart.navGroup.close(detailWin, {
-								animated : false
-							});
+							
 						});
 						detailWin.add(scrollView);
 
-		
 					}
 
 				} catch(e) {
@@ -317,7 +455,51 @@
 			}
 
 			getReq.send(params);
-		};		
+		};
+		function addProduct() {
+			var createReq = Titanium.Network.createHTTPClient();
+			if(Ti.App.localonline==="local"){
+				createReq.open("POST", "http://localhost/smartsell/post_addproduct.php");
+			}else{
+				createReq.open("POST", "http://sofiehendrickx.eu/smartsell/post_addproduct.php");
+			}
+			
+
+			var params = {
+				productBarcode : Ti.App.productBarcode,
+				linkId:Ti.App.linkId
+			};
+
+			createReq.onload = function() {
+				try {
+					var json = this.responseText;
+					var response = JSON.parse(json);
+					Ti.API.info('Product toevoegen: '+response);
+					if(response.noProduct===true){
+						alert('Product niet gevonden. Probeer opnieuw.');
+					}else{
+						if(response.add === true) {
+							Titanium.API.info('Add product: ' + this.responseText);
+							Ti.App.fireEvent('app:reloadProducts', {
+								action : 'Reload products'
+							});
+							
+						} else {
+							alert('Product kan niet worden toegevoegd.');
+						}
+					}
+					
+				} catch(e) {
+					alert(e);
+				}
+			};
+			createReq.onerror = function(e) {
+				Ti.API.info("TEXT onerror:   " + JSON.parse(this.responseText));
+				alert('Er is iets mis met de databank.');
+			}
+
+			createReq.send(params);
+		};
 
 		return detailWin;
 	};

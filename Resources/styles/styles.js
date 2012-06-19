@@ -36,6 +36,15 @@
 			selectedBackgroundColor : '#e3602b',
 			backgroundSelectedColor : '#e3602b'
 		},
+		rowDetail : {
+			left : 'auto',
+			right : 'auto',
+			width : 288,
+			top : 20,
+			backgroundImage : 'img/bg_product.png',
+			backgroundColor : '#fff',
+			height : 86
+		},
 		titleBar : {
 			color : '#fff',
 			font : {
@@ -49,7 +58,7 @@
 			contentHeight : 'auto',
 			showVerticalScrollIndicator : true,
 			layout : 'vertical',
-			top : 0,
+			top : 160,
 			bottom : 0,
 			verticalBounce:true
 		},
@@ -81,7 +90,7 @@
 				fontFamily : 'Bree serif'
 			},
 			color : '#AC3724',
-			top : 13,
+			top : 5,
 			right : 15,
 			height : 20,
 			width : 30,
@@ -90,8 +99,8 @@
 		},
 		textProductTitle : {
 			left :20,
-			top : 10,
-			width : 205,
+			top : 2,
+			width : 210,
 			height : 25,
 			textAlign : 'left',
 			color : '#474240',
@@ -101,10 +110,10 @@
 			}
 		},
 		textProductDescription : {
-			left : 130,
-			right : 20,
-			top : 46,
-			height : 70,
+			left : 45,
+			right : 25,
+			top : 25,
+			height : 35,
 			textAlign : 'left',
 			color : '#474240',
 			font : {
@@ -113,10 +122,9 @@
 			}
 		},
 		textProductPrice : {
-			right : 20,
-			top : 120,
+			left : 45,
+			top : 50,
 			height : 30,
-			textAlign : 'right',
 			color : '#474240',
 			font : {
 				fontSize : 16,
@@ -160,16 +168,32 @@
 		//
 		loginButton : {
 			backgroundImage : '/img/btn_login.png',
-			top : 90,
+			top : 10,
 			right : 20,
-			width : 90,
-			height : 37
+			width : 280,
+			height : 36
 		},
 		logoutButton : {
 			backgroundImage : 'img/btn_logout.png',
 			height : 37,
 			width : 280,
 			bottom : 10,
+			left : 'auto',
+			right : 'auto'
+		},
+		maakLinkButton : {
+			backgroundImage : 'img/btn_maakLink.png',
+			height : 37,
+			width : 280,
+			top : 15,
+			left : 'auto',
+			right : 'auto'
+		},
+		scanBarcodeButton : {
+			backgroundImage : 'img/btn_scanBarcode.png',
+			height : 37,
+			width : 280,
+			top : 15,
 			left : 'auto',
 			right : 'auto'
 		},
@@ -207,7 +231,7 @@
 		},
 		starButton : {
 			backgroundImage : '/img/star_unselected.png',
-			top : 10,
+			top : 4,
 			left : 13,
 			width : 25,
 			height : 25
@@ -227,7 +251,7 @@
 			image : "/img/kaart.jpg",
 			left : 'auto',
 			right : 'auto',
-			top : 200,
+			top : 10,
 			width : 269,
 			height : 194
 		}

@@ -3,8 +3,9 @@
 	Smart.ui.createLoginWindow = function() {
 		var navWindow;
 
-		var loginWin = Titanium.UI.createWindow(style.Window);
-
+		var loginWin = Titanium.UI.createWindow(Smart.combine(style.Window, {
+			layout : 'vertical'
+		}));
 		var lblTitle = Titanium.UI.createLabel(Smart.combine(style.titleBar, {
 			text : 'SmartSell'
 		}));
@@ -31,26 +32,37 @@
 		//
 		var labelPersoneelsnummer = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
 			text : 'Geef je personeelsnummer in om in te loggen.',
-			top : -380
+			top : 10,
+			height:15
 		}));
 		loginWin.add(labelPersoneelsnummer);
 
 		var widthTxtField = Titanium.Platform.displayCaps.platformWidth - 40;
 		var personeelNummer = Titanium.UI.createTextField(Smart.combine(style.inputField, {
-			top : 40,
+			top : 10,
 			hintText : 'Personeelsnummer'
 		}));
 		loginWin.add(personeelNummer);
 
 		var loginBtn = Titanium.UI.createButton(style.loginButton);
 		loginWin.add(loginBtn);
-
+		
+		var bg_lijn = Ti.UI.createView({
+			width:280,
+			height:11,
+			left:20,
+			top:20,
+			opacity:0.6,
+			backgroundImage:'img/of.png'
+		});
+		loginWin.add(bg_lijn);
 		//
 		//Inloggen via scannen
 		//
 		var labelPersoneelskaart = Titanium.UI.createLabel(Smart.combine(style.textNormal, {
-			text : 'Of scan de barcode van uw personeelskaart om in te loggen.',
-			top : -75
+			text : 'Tik hieronder en log in door de barcode van je personeelskaart te scannen.',
+			top : 10,
+			height:35
 		}));
 		loginWin.add(labelPersoneelskaart);
 
@@ -66,9 +78,9 @@
 			sourceType : [{
 				"Library" : false
 			}, {
-				"Camera" : true
+				"Camera" : false
 			}, {
-				"Album" : false
+				"Album" : true
 			}],
 			cameraMode : [{
 				"Default" : true

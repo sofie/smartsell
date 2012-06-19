@@ -28,10 +28,8 @@
 		}));
 		addProductWin.add(linkProduct1);
 
-
 		var btnAddProduct = Titanium.UI.createButton(style.voegToeButton);
 		addProductWin.add(btnAddProduct);
-
 
 		btnAddProduct.addEventListener('click', function(e) {
 			if(linkProduct1.value != '') {
@@ -49,7 +47,6 @@
 				createReq.open("POST", "http://sofiehendrickx.eu/smartsell/post_addproduct.php");
 			}
 			
-
 			var params = {
 				productId : linkProduct1.value,
 				linkId:Titanium.App.linkId

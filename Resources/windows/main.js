@@ -38,9 +38,26 @@
 		var addButton = Titanium.UI.createButton(style.addButton);
 
 		addButton.addEventListener('click', function(e) {
-			
-			Smart.navGroup.open(Smart.ui.createNieuweKoppelingWindow(), {
-				animated : false
+			Ti.include("/config/barcode.js");
+		
+			Ti.API.debug(JSON.stringify(config));
+			TiBar.scan({
+				configure : config,
+				success : function(data) {
+					Ti.App.productBarcode=data.barcode;
+					addLink();
+					Ti.API.info('TiBar success callback!');
+					if(data && data.barcode) {
+						Ti.API.info("Barcode: "+data.barcode+", symbol: "+data.symbology);
+						
+					}
+				},
+				cancel : function() {
+					Ti.API.info('TiBar cancel callback!');
+				},
+				error : function() {
+					Ti.API.info('TiBar error callback!');
+				}
 			});
 		});
 		mainWindow.rightNavButton = addButton;
@@ -128,9 +145,7 @@
 						listLinks.addEventListener('click', function(e) {
 							Titanium.App.selectedIndex = links[e.index].linkId;
 							Titanium.App.selectedNaam = links[e.index].linkNaam;
-							Smart.navGroup.close(mainWindow,{
-								animated : false
-							});
+							
 							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
 								animated : false
 							});
@@ -182,6 +197,63 @@
 			}
 
 			getReq.send();
+		};
+		function addLink() {
+			var createReq = Titanium.Network.createHTTPClient();
+			if(Ti.App.localonline==="local"){
+				createReq.open("POST", "http://localhost/smartsell/post_addlink.php");
+			}else{
+				createReq.open("POST", "http://sofiehendrickx.eu/smartsell/post_addlink.php");
+			}
+			
+
+			var params = {
+				linkProduct1 : Ti.App.productBarcode
+			};
+
+			createReq.onload = function() {
+				try {
+					var json = this.responseText;
+					var response = JSON.parse(json);
+					Ti.API.info("Add link: "+this.responseText);
+					
+					if(response.bestaatAl===true){
+						alert('Link bestaat al.');
+					}else{
+						if(response.add === true) {
+							Ti.App.fireEvent('app:reloadLinks', {
+								action : 'Reload links'
+							});
+							
+							Titanium.App.prodId = response.productId;
+							Titanium.App.linkId=response.linkId;
+							Titanium.App.linkNaam=response.linkNaam;
+							
+							Titanium.App.selectedNaam=response.linkNaam;
+							Titanium.App.selectedIndex=response.linkId;
+							
+							Smart.navGroup.open(Smart.ui.createDetailWindow(), {
+								animated : false
+							});
+						} else {
+							Smart.navGroup.open(Smart.ui.createAddErrorWindow(), {
+								animated : false
+							});
+							
+						}
+					}
+					
+					
+				} catch(e) {
+					alert(e);
+				}
+			};
+			createReq.onerror = function(e) {
+				Ti.API.info("TEXT onerror:   " + this.responseText);
+				alert('Er is iets mis met de databank.');
+			}
+
+			createReq.send(params);
 		};
 
 		//

@@ -2,15 +2,15 @@ var Smart = {
     ui: {},
     navGroup: undefined
 };
-//Ti.App.localonline="local";
-Ti.App.localonline="online";
+//Ti.App.localonline="online";
+Ti.App.localonline="local";
 
 //windows & ui
 Ti.include(
 	'windows/login.js',
 	'windows/main.js',
 	
-	'windows/add_link.js',
+	'windows/add_link_error.js',
 	'windows/add_product_vanopLink.js',
 	'windows/detail_link.js',
 	'windows/add_product.js',
