@@ -526,7 +526,9 @@
 					var response = JSON.parse(json);
 					Ti.API.info('Product toevoegen: '+response);
 					if(response.noProduct===true){
-						alert('Product niet gevonden. Probeer opnieuw.');
+						Smart.navGroup.open(Smart.ui.createProductErrorWindow(), {
+								animated : false
+						});
 					}else{
 						if(response.add === true) {
 							Titanium.API.info('Add product: ' + this.responseText);

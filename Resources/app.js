@@ -11,6 +11,7 @@ Ti.include(
 	'windows/main.js',
 	
 	'windows/add_link_error.js',
+	'windows/add_product_error.js',
 	'windows/detail_link.js',
 	'windows/detail_product.js',
 	

@@ -31,7 +31,9 @@ if (!$conn -> connect_error) {
 					
 						$singleResult = mysqli_fetch_assoc($result);
 						$insertProd1 = "INSERT INTO link_details (linkId, productId) VALUES ('" . $singleResult['linkId'] . "','".$singleResultNaam1['id']."')";
-			
+						$insertLink = "UPDATE products SET link = '" . $singleResult['linkId'] . "'";
+						$resultLink = $conn -> query($insertLink);
+						
 						$query2 = $conn -> query($insertProd1);
 						
 						if ($query2) {
